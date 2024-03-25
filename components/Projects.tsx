@@ -44,6 +44,7 @@ const Projects = ({ projects }: Props) => {
                 pausedOverlay={
                   <Image
                     fill={true}
+                    sizes="(max-width:768px) 100vw,(max-width:1200px) 70vw,66vw"
                     className="h-full w-full object-cover"
                     src={project.cover_data.uri}
                     alt={`preview_${project.title}`}
