@@ -1,0 +1,302 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.task-list-item::before {
+  @apply hidden;
+}
+
+.task-list-item {
+  @apply list-none;
+}
+
+.footnotes {
+  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+}
+
+.data-footnote-backref {
+  @apply no-underline;
+}
+
+.csl-entry {
+  @apply my-5;
+}
+
+.x-link {
+  @apply border-b border-dotted text-primary-700 hover:border-accent-500 hover:text-accent-500;
+}
+
+/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition:
+    background-color 600000s 0s,
+    color 600000s 0s;
+}
+
+.katex-display {
+  overflow: auto hidden;
+}
+
+.x-content {
+  @apply break-words text-base leading-loose;
+
+  > * {
+    @apply my-[.875rem] lg:my-4;
+  }
+
+  > :first-child {
+    margin-top: 0 !important;
+  }
+
+  > :last-child {
+    margin-bottom: 0 !important;
+  }
+
+  button:has(+ pre) {
+    > svg {
+      @apply text-white;
+    }
+    @apply border-primary-800 bg-primary-800 text-primary-400 focus:border-primary-800;
+    &:hover {
+      @apply border-accent-500 bg-accent-500 text-white;
+    }
+  }
+
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply mt-6 leading-tight lg:mt-[3.75rem];
+  }
+
+  h2 {
+    @apply text-28 lg:text-32;
+  }
+  h3 {
+    @apply text-24 lg:text-28;
+  }
+  h4 {
+    @apply text-20 lg:text-24;
+  }
+  h5 {
+    @apply text-18 lg:text-20;
+  }
+  h6 {
+    @apply text-16 lg:text-18;
+  }
+
+  ul,
+  ol {
+    @apply list-outside pl-4;
+    li {
+      &::marker {
+        @apply text-primary-500;
+      }
+    }
+  }
+
+  ul,
+  ol {
+    > ul,
+    ol {
+      @apply pl-[2em];
+    }
+  }
+
+  ul li {
+    @apply list-disc;
+  }
+  ol li {
+    @apply list-decimal;
+  }
+
+  big {
+    @apply text-lg;
+  }
+
+  small {
+    @apply text-sm;
+  }
+
+  a {
+    @apply x-link;
+  }
+  pre {
+    @apply max-w-content overflow-auto bg-primary-300 p-3 text-md leading-normal text-primary-700 lg:p-6;
+  }
+  table {
+    @apply w-full;
+    th,
+    td {
+      @apply border-b border-primary-400 p-1 text-left;
+    }
+  }
+
+  p > code {
+    @apply mx-1 bg-primary-300 p-1 text-md  text-primary-700;
+  }
+
+  iframe,
+  video {
+    @apply aspect-video w-full;
+  }
+
+  blockquote {
+    @apply border-l-2 border-primary-500 py-3 pl-10 italic;
+  }
+}
+
+.x-content {
+  .x-meta-group,
+  .x-citation {
+    @apply my-6 flex flex-col gap-3 leading-normal lg:my-[3.75rem] lg:gap-6;
+    h2 {
+      @apply mt-0 text-24 lg:text-32;
+    }
+    div {
+      @apply flex flex-col gap-2 lg:gap-3;
+    }
+    p {
+      @apply text-14 lg:text-16;
+    }
+  }
+}
+
+.x-authors {
+  a {
+    @apply x-link;
+  }
+}
+
+.x-link-arrow {
+  @apply ml-1;
+  border: none !important;
+}
+
+.x-slideshow {
+  --swiper-navigation-color: white;
+  --swiper-navigation-size: 1.25rem;
+  width: 100%;
+  max-width: 100%;
+  // CSS Grid/Flexbox bug size workaround
+  // @see https://github.com/kenwheeler/slick/issues/982
+  // @see https://github.com/nolimits4web/swiper/issues/3599
+  min-height: 0;
+  min-width: 0;
+  .swiper {
+    max-width: 100%;
+  }
+}
+
+.x-image-control {
+  &[data-align='right'] {
+    > div {
+      text-align: right;
+    }
+  }
+  > div {
+    @apply h-full;
+    img {
+      @apply inline-block h-full w-auto object-cover;
+    }
+  }
+}
+
+.x-members {
+  @apply grid grid-cols-3 gap-x-4 gap-y-[2rem] border-b border-t border-primary-500 py-8 text-14 lg:grid-cols-4 lg:gap-[4.5rem] lg:py-12 lg:text-24;
+  > * {
+    @apply leading-none;
+  }
+}
+
+.x-contacts {
+  @apply my-6 flex justify-between gap-4 lg:my-[3.75rem];
+}
+
+.x-contact {
+  font-style: normal;
+  label {
+    @apply text-20 leading-none lg:text-24;
+  }
+  div {
+    @apply leading-tight lg:leading-normal;
+    a {
+      @apply text-14 lg:text-base;
+    }
+  }
+}
+
+.x-project-desc {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 5%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+@keyframes fade-down {
+  0% {
+    opacity: 0;
+    transform: translate(0, -3vmin);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0px);
+  }
+}
+
+@keyframes fade-right {
+  0% {
+    opacity: 0;
+    transform: translate(3vmin, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes fade-left {
+  0% {
+    opacity: 0;
+    transform: translate(-3vmin, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0px);
+  }
+}
+
+.anim-fade-down {
+  animation: fade-down 0.8s cubic-bezier(0.4, 0.4, 0, 1);
+}
+
+.anim-fade-left {
+  animation: fade-left 0.8s cubic-bezier(0.4, 0.4, 0, 1);
+}
+
+.anim-fade-right {
+  animation: fade-right 0.8s cubic-bezier(0.4, 0.4, 0, 1);
+}
+
+.x-brand {
+  animation: fade-down 0.8s cubic-bezier(0.4, 0.4, 0, 1) both;
+}
+
+.x-menu {
+  animation: fade-left 0.8s cubic-bezier(0.4, 0.4, 0, 1) 0.3s both;
+}
+
+.x-main {
+  animation: fade-right 0.8s cubic-bezier(0.4, 0.4, 0, 1) 0.6s both;
+}
+
+.h-screen {
+  height: 100dvh;
+}
