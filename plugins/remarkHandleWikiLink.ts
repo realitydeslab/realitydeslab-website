@@ -21,7 +21,7 @@ function remarkHandleWikiLink(opts: remarkHandleWikiLinkOptions): (tree: Node) =
       tree,
       (node: Parent) =>
         node.type === 'paragraph' && node.children.some((n) => n.type === 'wikiLink'),
-      (node: Parent) => { 
+      (node: Parent) => {
         const nodeIndex = node.children.findIndex((n) => n.type === 'wikiLink')
         let childNode: any = node.children[nodeIndex]
 

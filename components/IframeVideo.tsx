@@ -6,6 +6,7 @@ const IframeVideo = ({ videos }: { videos: string[] | undefined }) => {
   return videos.map((video, idx) => {
     return (
       <iframe
+        allowFullScreen={true}
         key={`video_${idx}`}
         className="aspect-video h-auto w-full"
         title={`iframe-video-${idx}`}

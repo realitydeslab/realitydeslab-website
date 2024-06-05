@@ -18,7 +18,7 @@ const supportedFileFormats = [
   'pdf',
 ]
 
-const videoFileFormats = ['mp4', 'mov']
+const videoFileFormats = ['mp4', 'mov', 'webm']
 
 const defaultWikiLinkResolver = (target: string) => {
   // for [[#heading]] links

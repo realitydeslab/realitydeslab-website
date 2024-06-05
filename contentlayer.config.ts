@@ -74,7 +74,7 @@ export const Code = CodeDef
 export default makeSource({
   contentDirPath: vault_root,
   // contentDirInclude: ['Projects', 'Blogs', 'Meta', 'Webpages', 'Codes'],//隐藏部分内容，暂不全量发布
-  contentDirInclude: ['Projects', 'Webpages', 'Codes'],
+  contentDirInclude: ['Projects', 'Webpages', 'Codes', 'Blogs'],
   documentTypes: [Code, Project, Page, Blog, Author],
   disableImportAliasWarning: true,
   mdx: {

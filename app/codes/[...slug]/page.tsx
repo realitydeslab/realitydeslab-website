@@ -17,10 +17,10 @@ type Props = { code: Code }
 const CodeRepo = ({ code }: Props) => {
   return (
     code.repos.length && (
-      <div className="flex flex-col gap-1 pt-3 font-code lg:gap-4 lg:pt-9">
-        {code.version && <p className="text-24 lg:text-32">{code.version}</p>}
+      <div className="flex flex-col gap-1 font-code lg:gap-4">
+        {/* {code.version && <p className="text-24 lg:text-32">{code.version}</p>} */}
         <p>
-          <a className="hover:text-accent-500" href={code.repos[0]}>
+          <a className="font-code text-xs hover:text-accent-500" href={code.repos[0]}>
             {code.repos[0]}
           </a>
         </p>
@@ -37,11 +37,11 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
     <Article slug={code.slug}>
       <ArticleHeader>
         <ArticleTitle>{code.title ?? ''}</ArticleTitle>
+
         <Authors authors={code.authors} />
+        <CodeRepo code={code} />
+
         <Cover cover={code.parsed_cover} alt={code.title} />
-        <ArticleMeta>
-          <CodeRepo code={code} />
-        </ArticleMeta>
       </ArticleHeader>
       <section className="x-content">
         <MDXLayoutRenderer code={code.body.code} components={components} toc={code.toc} />

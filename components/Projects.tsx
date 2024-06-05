@@ -35,7 +35,7 @@ const Projects = ({ projects }: Props) => {
           <div className="relative  cursor-pointer lg:w-full lg:max-w-wide" key={project.slug}>
             {project.coverVideo_data.type == 'video' ? (
               <HoverVideoPlayer
-                className="block w-full"
+                className="block h-full w-full"
                 onClick={() => handleClick(project)}
                 // onTouchEnd={() => handleClick(project)}
                 onHoverStart={() => handleMouseEnter(project)}

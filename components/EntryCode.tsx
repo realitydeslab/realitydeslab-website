@@ -24,9 +24,9 @@ const Repo = ({ code }: Props) => {
       <a
         target="_blank"
         href={code.repos[0]}
-        className="font-code text-xs leading-tight hover:text-accent-500 lg:text-sm"
+        className="font-code text-xs leading-none hover:text-accent-500 lg:text-sm"
       >
-        {code.version} | {code.repos[0]}
+        {code.repos[0]}
       </a>
     </p>
   )
@@ -50,7 +50,7 @@ const EntryCode = ({ code }: Props) => {
     <EntryWrap key={code.title}>
       <Title code={code} />
       <Description code={code} />
-      <Authors authors={code.authors} byClassName="text-primary-500" />
+      <Authors authors={code.authors} />
       <Repo code={code} />
       <Cover
         cover={code.parsed_cover}

@@ -11,7 +11,7 @@ const headerNavLinks = [
   { href: '/projects', title: 'projects', children: projects },
   // { href: '/research', title: 'research' },
   { href: '/codes', title: 'open source' },
-  // { href: '/blogs', title: 'writing' },
+  { href: '/blogs', title: 'writing' },
   { href: '/about-reality-design-lab', title: 'about' },
   { href: '/people', title: 'people' },
   { href: '/join-us', title: 'join us' },

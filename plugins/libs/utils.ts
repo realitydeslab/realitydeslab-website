@@ -7,7 +7,7 @@ function coreContent(content) {
 }
 
 function __(wikilink) {
-  return wikilink.replace('[[', '').replace(']]', '')
+  return wikilink.replaceAll('[[', '').replaceAll(']]', '')
 }
 
 function collect(doc, keys) {
