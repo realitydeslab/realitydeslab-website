@@ -1,7 +1,8 @@
+import type {Metadata} from 'next'
 import { components } from '@/components/MDXComponents'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { __ } from '@/plugins/libs/utils'
-import { allPages, Page } from 'contentlayer/generated'
+import { allPages, Page as BasePage } from 'contentlayer/generated'
 import ArticleTitle from '@/components/ArticleTitle'
 import Article from '@/components/Article'
 import ArticleHeader from '@/components/ArticleHeader'
@@ -10,7 +11,7 @@ export const generateStaticParams = async () => allPages.map((p) => ({ slug: p.s
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params
-  const page = allPages.find((p) => p.slug == slug) as Page
+  const page = allPages.find((p) => p.slug == slug) as BasePage
   return (
     <Article slug={page.slug}>
       <ArticleHeader>

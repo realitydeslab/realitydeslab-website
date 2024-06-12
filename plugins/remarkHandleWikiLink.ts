@@ -20,39 +20,37 @@ function remarkHandleWikiLink(opts: remarkHandleWikiLinkOptions): (tree: Node) =
     visit(
       tree,
       (node: Parent) =>
-        node.type === 'paragraph' && node.children.some((n) => n.type === 'wikiLink'),
+        node.type === 'paragraph' && node.children.some((n:any) => n.type === 'wikiLink'),
       (node: Parent) => {
-        const nodeIndex = node.children.findIndex((n) => n.type === 'wikiLink')
-        let childNode: any = node.children[nodeIndex]
-
-        if (childNode.data && childNode.data.permalink) {
-          const { permalink } = childNode.data
-
-          const result: PermalinkResult = parsePermalink(permalink)
-
-          switch (result.type) {
-            case 'img':
-              childNode.data.hProperties && (childNode.data.hProperties.src = result.uri)
-              break
-
-            case 'video':
-              childNode.data.hName = 'video'
-              childNode.data.hProperties = {
-                controls: true,
-                src: result.uri,
-              }
-              childNode.data.hChildren = null
-              node.type = 'div'
-              break
-
-            case 'link':
-            default:
-              childNode.data.hProperties && (childNode.data.hProperties.href = result.uri)
-              break
+        const items = node.children.filter((n:any) => n.type === 'wikiLink')
+        items.forEach((childNode:any) => {
+          if (childNode.data && childNode.data.permalink) {
+            const { permalink } = childNode.data
+  
+            const result: PermalinkResult = parsePermalink(permalink)
+  
+            switch (result.type) {
+              case 'img':
+                childNode.data.hProperties && (childNode.data.hProperties.src = result.uri)
+                break
+  
+              case 'video':
+                childNode.data.hName = 'video'
+                childNode.data.hProperties = {
+                  controls: true,
+                  src: result.uri,
+                }
+                childNode.data.hChildren = null
+                node.type = 'div'
+                break
+  
+              case 'link':
+              default:
+                childNode.data.hProperties && (childNode.data.hProperties.href = result.uri)
+                break
+            }
           }
-
-          node.children[nodeIndex] = childNode
-        }
+        });
       }
     )
   }

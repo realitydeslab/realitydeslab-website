@@ -10,9 +10,9 @@ function remarkImgToNextImage({ target_root }: { target_root: string }) {
       tree,
       // only visit p tags that contain an img element
       (node: Parent) =>
-        node.type === 'paragraph' && node.children.some((n) => n.data?.hName === 'img'),
+        node.type === 'paragraph' && node.children.some((n:any) => n.data?.hName === 'img'),
       (node) => {
-        const imageNodeIndex = node.children.findIndex((n) => n.data?.hName === 'img')
+        const imageNodeIndex = node.children.findIndex((n:any) => n.data?.hName === 'img')
         const imageNode = node.children[imageNodeIndex]
 
         const filePath = `${process.cwd()}/public/static/${target_root}/${imageNode.data.permalink}`

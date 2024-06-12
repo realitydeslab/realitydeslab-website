@@ -8,6 +8,7 @@ function coreContent(content) {
 
 function __(wikilink) {
   return wikilink.replaceAll('[[', '').replaceAll(']]', '')
+  .split("|").pop() //TODO:临时处理 "page|alias"链接
 }
 
 function collect(doc, keys) {

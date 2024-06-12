@@ -43,6 +43,9 @@ const Links = ({
 
 const wikilink = (link: string, compact: boolean = false) => {
   const RenderLink = (href: string, title: string) => {
+    
+    
+    
     return <span key={title}>{title}</span> //暂时先不返回链接
 
     return href !== '/' ? (
