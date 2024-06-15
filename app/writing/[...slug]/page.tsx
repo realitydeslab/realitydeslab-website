@@ -24,7 +24,7 @@ const Metadata = ({ blog }: Props) => {
 
   return (
     <MetaGroup>
-      <h2>meta infomation</h2>
+      <h2>Metadata</h2>
       <div className="x-metadata grid gap-3 leading-tight">
         {mediaData && (
           <p>

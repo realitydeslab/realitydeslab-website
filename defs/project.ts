@@ -20,6 +20,7 @@ export const Project = defineDocumentType(() => ({
     published: { type: 'boolean' },
     yearStart: { type: 'number' },
     yearEnd: { type: 'number' },
+    date: { type: 'date', required: true },
     description: { type: 'string' },
     cover: { type: 'string' },
     coverVideo: { type: 'string' },

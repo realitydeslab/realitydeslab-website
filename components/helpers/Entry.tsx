@@ -17,7 +17,8 @@ const entryRecognitions = (entries: string[]) => {
 const authorPublications = (name: string) => {
   const entries = _.pickBy(
     entryData,
-    (entry) => entry.authors && entry.authors.some((n) => __(n) == name)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (entry:any) => entry.authors && entry.authors.some((n:any) => __(n) == name)
   )
 
   return entryRecognitions(_.keys(entries))

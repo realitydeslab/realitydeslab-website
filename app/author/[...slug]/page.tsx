@@ -63,7 +63,7 @@ const Info = ({ author }: { author: Author }) => {
   return (
     <>
       <MetaGroup>
-        <h2>infomation</h2>
+        <h2>Infomation</h2>
         <div>
           {position && <Metainfo title="position">{__(position)}</Metainfo>}
           {email && (
@@ -82,7 +82,7 @@ const Info = ({ author }: { author: Author }) => {
         </div>
       </MetaGroup>
       <MetaGroup>
-        <h2>biography</h2>
+        <h2>Biography</h2>
         <div>
           <p className="leading-normal">{biography}</p>
         </div>
@@ -96,7 +96,7 @@ const Publications = ({ name }: { name: string }) => {
   return (
     Array.isArray(publications) && (
       <MetaGroup>
-        <h2>publications</h2>
+        <h2>Publications</h2>
         <div>{publications}</div>
       </MetaGroup>
     )

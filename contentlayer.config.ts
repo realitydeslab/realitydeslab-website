@@ -22,6 +22,7 @@ import { Author as AuthorDef } from './defs/author'
 import { Project as ProjectDef } from './defs/project'
 import { Page as PageDef } from './defs/page'
 import { Code as CodeDef } from './defs/code'
+import { Course as CourseDef } from './defs/course'
 import { permalinks, vault_root, target_root } from './defs/common'
 
 import { remarkExtractFrontmatter, remarkImgToJsx } from 'pliny/mdx-plugins/index.js'
@@ -70,12 +71,13 @@ export const Author = AuthorDef
 export const Project = ProjectDef
 export const Page = PageDef
 export const Code = CodeDef
+export const Course = CourseDef
 
 export default makeSource({
   contentDirPath: vault_root,
   // contentDirInclude: ['Projects', 'Blogs', 'Meta', 'Webpages', 'Codes'],//隐藏部分内容，暂不全量发布
-  contentDirInclude: ['Projects', 'Webpages', 'Codes', 'Blogs'],
-  documentTypes: [Code, Project, Page, Blog, Author],
+  contentDirInclude: ['Projects', 'Webpages', 'Codes', 'Blogs', 'Courses'],
+  documentTypes: [Code, Project, Page, Blog, Course, Author],
   disableImportAliasWarning: true,
   mdx: {
     cwd: process.cwd(),
@@ -94,7 +96,7 @@ export default makeSource({
       rehypeSlug,
       // rehypeAutolinkHeadings,
       rehypeKatex,
-      [rehypeCitation, { path: path.join(root, vault_root) }],
+      [rehypeCitation, { path: path.join(root, vault_root), suppressBibliography: true, linkCitations: true }],
       [rehypePrismPlus, { defaultLanguage: 'js', ignoreMissing: true }],
       rehypePresetMinify,
     ],

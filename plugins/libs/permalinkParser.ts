@@ -4,7 +4,15 @@ import chalk from 'chalk'
 import path from 'path'
 import permalinksMap from '../../cache/permalinks.json' assert { type: 'json' }
 
-const supportedFileFormats = [
+
+const supportedFileFormats=[
+  'pdf',
+  'zip',
+  'bib',
+  'csl'
+]
+
+const supportedMediaFormats = [
   'webp',
   'jpg',
   'jpeg',
@@ -15,7 +23,6 @@ const supportedFileFormats = [
   'png',
   'avif',
   'ico',
-  'pdf',
 ]
 
 const videoFileFormats = ['mp4', 'mov', 'webm']
@@ -76,8 +83,11 @@ const permalinkResolver = (
 const isVideo = (filepath: string): boolean =>
   videoFileFormats.indexOf(path.extname(filepath).replace('.', '')) >= 0
 
-const isMedia = (filepath: string): boolean =>
+const isFile = (filepath: string): boolean =>
   supportedFileFormats.indexOf(path.extname(filepath).replace('.', '')) >= 0
+
+const isMedia = (filepath: string): boolean =>
+  supportedMediaFormats.indexOf(path.extname(filepath).replace('.', '')) >= 0
 
 export type PermalinkResult = { type: 'img' | 'video' | 'link'; uri: string }
 
@@ -90,7 +100,10 @@ const permalinkHandler = (
       return { type: 'img', uri: publishMedia(permalink, vault_root, target_root) }
     } else if (isVideo(permalink)) {
       return { type: 'video', uri: publishMedia(permalink, vault_root, target_root) }
-    } else {
+  } else if(isFile(permalink)){
+    console.log('file',permalink);
+    return { type: 'link', uri: publishMedia(permalink, vault_root, target_root) }
+  } else {
       return { type: 'link', uri: rewritePermalink(permalink) }
     }
   }

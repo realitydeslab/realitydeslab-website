@@ -13,11 +13,11 @@ const Citation = ({ children }: { children: string | undefined }) => {
   return (
     children && (
       <div className="x-citation">
-        <h2>citation</h2>
+        <h2>Citation</h2>
         <p>
           copy to the clip board for citation
-          <button className="ml-1 hover:text-accent-500 active:text-accent-500" onClick={doCopy}>
-            [{copied ? '✓' : '→'}]
+          <button className="ml-1 hover:text-accent-500 active:text-accent-500">
+            →
           </button>
         </p>
         <pre className="!lg:p-6 max-h-[6.25rem] w-full overflow-y-auto whitespace-pre-wrap p-3">

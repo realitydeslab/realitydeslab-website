@@ -23,7 +23,10 @@ function collect(doc, keys) {
 }
 
 function allPublishedContent(contents) {
-  return contents.map((c) => coreContent(c)).filter((c) => 'published' in c && c.published === true)
+  const publishedContents = contents.map((c) => coreContent(c)).filter((c) => 'published' in c && c.published === true)
+  const sortedContents = _.sortBy(publishedContents, 'date').reverse()
+  return sortedContents
 }
+
 
 export { __, collect, allPublishedContent }

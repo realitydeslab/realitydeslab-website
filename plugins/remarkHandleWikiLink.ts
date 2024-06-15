@@ -1,9 +1,7 @@
 import { visit } from 'unist-util-visit'
 import { Parent, Node } from 'unist'
 
-import { permalinkHandler, PermalinkResult } from './libs/permalinkHandler'
-
-import { permaLinkParser } from './libs/permalinkParser'
+import { permaLinkParser, PermalinkResult } from './libs/permalinkParser'
 
 type remarkHandleWikiLinkOptions = {
   vault_root: string
@@ -13,7 +11,6 @@ type remarkHandleWikiLinkOptions = {
 }
 
 function remarkHandleWikiLink(opts: remarkHandleWikiLinkOptions): (tree: Node) => void {
-  // const handlePermalink = permalinkHandler(vault_root, target_root)
   const parsePermalink = permaLinkParser(opts)
 
   return (tree) => {

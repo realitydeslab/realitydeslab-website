@@ -6,9 +6,9 @@ import { Author } from './author'
 
 const resolvePreviewData = (doc) => doc.cover && parsePermalink(doc.cover)
 
-export const Code = defineDocumentType(() => ({
-  name: 'Code',
-  filePathPattern: vault_root + '/Codes/**/*.md',
+export const Course = defineDocumentType(() => ({
+  name: 'Course',
+  filePathPattern: vault_root + '/Courses/**/*.md',
   contentType: 'mdx',
   onExtraFieldData: 'ignore',
   fields: {

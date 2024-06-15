@@ -18,11 +18,22 @@ const parsePermalink = permaLinkParser({
   permalinks,
 })
 
+const resolveSlug = (type:string):string => {
+ switch(type){
+  case 'blog':
+    return 'writing';
+  case 'course':
+    return 'teaching';
+  default:
+      return type;
+  }
+}
+
 const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
   url: {
     type: 'string',
-    resolve: (doc) => `/${pluralize(_.toLower(doc.type))}/${doc.slug}`,
+    resolve: (doc) => `/${resolveSlug(_.toLower(doc.type))}/${doc.slug}`,
   },
   path: {
     type: 'string',

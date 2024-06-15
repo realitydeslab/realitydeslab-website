@@ -28,7 +28,7 @@ const Publications = ({ project }: { project: Project }) => {
   return (
     showBlock && (
       <MetaGroup>
-        <h2>publications</h2>
+        <h2>Publications</h2>
         <div>
           {entryRecognitions(papers)}
           {entryRecognitions(awards)}
@@ -46,7 +46,7 @@ const Metadata = ({ project }: { project: Project }) => {
   return (
     (media.length || techs.length || topics.length) > 0 && (
       <MetaGroup>
-        <h2>metadata</h2>
+        <h2>Metadata</h2>
         <div>
           {media.length ? (
             <p>
@@ -82,7 +82,7 @@ const Credits = ({ project }: { project: Project }) => {
   return (
     project.credits?.length && (
       <MetaGroup>
-        <h2>credits</h2>
+        <h2>Credits</h2>
         <div>
           {project.credits.map((credit, idx) => {
             return (
@@ -140,10 +140,10 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
       </ArticleHeader>
       <section className="x-content">
         <MDXLayoutRenderer code={project.body.code} components={components} toc={project.toc} />
-        <Citation>{project.citation}</Citation>
-        <Links title="websites" links={project.websites} target="_blank" />
-        <Links title="repos" links={project.repos} target="_blank" />
+        <Links title="Websites" links={project.websites} target="_blank" />
+        <Links title="Repos" links={project.repos} target="_blank" />
         <Publications project={project} />
+        <Citation>{project.citation}</Citation>
         <Metadata project={project} />
         <Credits project={project} />
         <Preview project={project} />
