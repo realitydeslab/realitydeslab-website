@@ -1,5 +1,5 @@
 import { allCourses } from 'contentlayer/generated'
-import { __, allPublishedContent } from '@/plugins/libs/utils'
+import { __, allPublishedContent } from '@/libs/utils'
 import EntryCode from '@/components/EntryCode'
 
 export default async function Page() {

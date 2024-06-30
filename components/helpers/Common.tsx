@@ -1,5 +1,5 @@
-import { rewritePermalink } from '@/plugins/libs/permalinkParser'
-import { __ } from '@/plugins/libs/utils'
+import { rewritePermalink } from '@/libs/permalink-resolver'
+import { __ } from '@/libs/utils'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import MetaGroup from '../MetaGroup'
@@ -43,9 +43,6 @@ const Links = ({
 
 const wikilink = (link: string, compact: boolean = false) => {
   const RenderLink = (href: string, title: string) => {
-    
-    
-    
     return <span key={title}>{title}</span> //暂时先不返回链接
 
     return href !== '/' ? (
@@ -70,8 +67,9 @@ const wikilink = (link: string, compact: boolean = false) => {
       </p>
     )
   }
-  const title = __(link)
-  const href = rewritePermalink(title)
+
+  const title = __(link) ?? ''
+  const href = title ? rewritePermalink(title) : '/'
   return compact ? RenderLink(href, title) : RenderLine(href, title)
 }
 

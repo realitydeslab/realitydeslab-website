@@ -1,10 +1,9 @@
 import { computedFields } from './common'
-import { defineDocumentType } from 'contentlayer/source-files'
-import vault_root from '../publish.config'
+import { defineDocumentType } from 'contentlayer2/source-files'
 
 export const Author = defineDocumentType(() => ({
   name: 'Author',
-  filePathPattern: vault_root + '/Meta/Authors/**/*.md',
+  filePathPattern: '/Meta/Authors/**/*.md',
   onExtraFieldData: 'ignore',
   contentType: 'mdx',
   fields: {

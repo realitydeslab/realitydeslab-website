@@ -18,11 +18,12 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./*"],
+      "@/libs/*": ["libs/*"],
       "@/plugins/*": ["plugins/*"],
       "@/resources/*": ["resources/*"],
       "@/components/*": ["components/*"],
       "@/data/*": ["data/*"],
-      "@/cache/*": ["cache/*"],
       "@/layouts/*": ["layouts/*"],
       "@/css/*": ["css/*"],
       "contentlayer/generated": ["./.contentlayer/generated"]
@@ -39,12 +40,13 @@
     "**/*.js",
     "**/*.mjs",
     "**/*.ts",
+    "**/**/*.ts",
     "**/*.tsx",
     "**/*.json",
     ".contentlayer/generated",
     ".contentlayer/generated/**/*.json",
+    ".cache/*.json",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
-  // "exclude": ["node_modules"]
 }

@@ -1,11 +1,10 @@
 import { computedFields } from './common'
 import siteMetadata from '../data/siteMetadata'
-import { defineDocumentType } from 'contentlayer/source-files'
-import vault_root from '../publish.config'
+import { defineDocumentType } from 'contentlayer2/source-files'
 
 export const Page = defineDocumentType(() => ({
   name: 'Page',
-  filePathPattern: vault_root + '/Webpages/**/*.md',
+  filePathPattern: '/Webpages/**/*.md',
   contentType: 'mdx',
   onExtraFieldData: 'ignore',
   fields: {

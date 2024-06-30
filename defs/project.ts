@@ -1,14 +1,13 @@
-import { defineDocumentType } from 'contentlayer/source-files'
-import { __, collect } from '../plugins/libs/utils'
+import { defineDocumentType } from 'contentlayer2/source-files'
+import { __ } from '../libs/utils'
 import _ from 'lodash'
 
-import { vault_root, computedFields, parsePermalink } from './common'
-
-const resolveWikiLinks = (data) => data.array().map((token) => parsePermalink(token))
+import { computedFields, resolveWikiLinks } from './common'
+import { resolvePermalink } from '../libs/permalink-resolver'
 
 export const Project = defineDocumentType(() => ({
   name: 'Project',
-  filePathPattern: vault_root + '/Projects/**/*.md',
+  filePathPattern: '/Projects/**/*.md',
   onExtraFieldData: 'ignore',
   contentType: 'mdx',
   fields: {
@@ -20,7 +19,7 @@ export const Project = defineDocumentType(() => ({
     published: { type: 'boolean' },
     yearStart: { type: 'number' },
     yearEnd: { type: 'number' },
-    date: { type: 'date', required: true },
+    date: { type: 'date' },
     description: { type: 'string' },
     cover: { type: 'string' },
     coverVideo: { type: 'string' },
@@ -56,11 +55,11 @@ export const Project = defineDocumentType(() => ({
     },
     cover_data: {
       type: 'json',
-      resolve: (doc) => parsePermalink(doc.cover ?? ''),
+      resolve: (doc) => resolvePermalink(doc.cover ?? ''),
     },
     coverVideo_data: {
       type: 'json',
-      resolve: (doc) => parsePermalink(doc.coverVideo ?? ''),
+      resolve: (doc) => resolvePermalink(doc.coverVideo ?? ''),
     },
     coverSlides_data: {
       type: 'list',

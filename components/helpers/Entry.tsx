@@ -1,9 +1,10 @@
-import entryData from '@/cache/entries.json' assert { type: 'json' }
-import { __ } from '@/plugins/libs/utils'
+import entryData from '../../.cache/entries.json' assert { type: 'json' }
+import { __ } from '@/libs/utils'
 import _ from 'lodash'
 
 const getEntry = (entry: string) => {
-  return entryData[__(entry)] ?? null
+  const key = __(entry)
+  return key ? entryData[key] : null
 }
 
 const entryRecognitions = (entries: string[]) => {
@@ -18,7 +19,7 @@ const authorPublications = (name: string) => {
   const entries = _.pickBy(
     entryData,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (entry:any) => entry.authors && entry.authors.some((n:any) => __(n) == name)
+    (entry: any) => entry.authors && entry.authors.some((n: any) => __(n) == name)
   )
 
   return entryRecognitions(_.keys(entries))
@@ -26,7 +27,7 @@ const authorPublications = (name: string) => {
 
 const EntryRecognition = ({ entry }: { entry: string }) => {
   const entity = getEntry(entry)
-  if (entity === null) return <></>
+  if (!entity) return <></>
   const { recognition, recoLink } = entity
 
   return recognition && recoLink ? (

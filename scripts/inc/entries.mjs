@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import { glob } from 'glob'
 import matter from 'gray-matter'
-import { fileIsPublished } from './utils.mjs'
+import { fileIsPublished, cache_root, vault_root as root } from './utils.mjs'
 import path from 'path'
 import chalk from 'chalk'
 
@@ -9,10 +9,10 @@ export const handleEntries = async () => {
   console.log('handle entries..')
   let entries = {}
 
-  const search = 'vault/Entries/**/*.md',
-    ignore = ['vault/_*/**', 'vault/**/_*']
+  const search = '/Entries/**/*.md',
+    ignore = ['/_*/**', '/**/_*']
 
-  const files = await glob(search, { ignore })
+  const files = await glob(search, { ignore, root })
 
   files.forEach((file) => {
     const content = fs.readFileSync(file, 'utf-8')
@@ -25,7 +25,7 @@ export const handleEntries = async () => {
     }
   })
 
-  fs.outputFileSync('cache/entries.json', JSON.stringify(entries))
+  fs.outputFileSync(`${cache_root}/entries.json`, JSON.stringify(entries))
 
-  console.log('cache/entries.json created.')
+  console.log(`${cache_root}/entries.json created.`)
 }

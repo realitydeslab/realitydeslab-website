@@ -191,11 +191,13 @@ input:-webkit-autofill:focus {
 
 .x-image-control {
   &[data-align='right'] {
-    > div {
+    > div,
+    p {
       text-align: right;
     }
   }
-  > div {
+  > div,
+  p {
     @apply h-full;
     img {
       @apply inline-block h-full w-auto object-cover;

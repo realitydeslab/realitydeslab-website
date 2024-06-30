@@ -1,7 +1,7 @@
 import { Blog, allBlogs } from 'contentlayer/generated'
 import { components } from '@/components/MDXComponents'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
-import { __ } from '@/plugins/libs/utils'
+import { __ } from '@/libs/utils'
 import Authors from '@/components/Authors'
 import ArticleTitle from '@/components/ArticleTitle'
 import Article from '@/components/Article'

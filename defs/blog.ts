@@ -1,14 +1,12 @@
-import { computedFields, parsePermalink } from './common'
+import { computedFields, resolvePreviewData } from './common'
 import siteMetadata from '../data/siteMetadata'
-import { defineDocumentType } from 'contentlayer/source-files'
-import vault_root from '../publish.config'
-import { Author } from './author'
+import { defineDocumentType } from 'contentlayer2/source-files'
 
-const resolvePreviewData = (doc) => doc.cover && parsePermalink(doc.cover)
+import { Author } from './author'
 
 export const Blog = defineDocumentType(() => ({
   name: 'Blog',
-  filePathPattern: vault_root + '/Blogs/**/*.md',
+  filePathPattern: '/Blogs/**/*.md',
   contentType: 'mdx',
   onExtraFieldData: 'ignore',
   fields: {

@@ -1,5 +1,5 @@
 import { Author, allAuthors, allProjects } from 'contentlayer/generated'
-import { __ } from '@/plugins/libs/utils'
+import { __ } from '@/libs/utils'
 import ArticleTitle from '@/components/ArticleTitle'
 import Article from '@/components/Article'
 import ArticleHeader from '@/components/ArticleHeader'

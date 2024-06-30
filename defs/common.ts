@@ -1,31 +1,24 @@
-import { ComputedFields } from 'contentlayer/source-files'
+import { ComputedFields } from 'contentlayer2/source-files'
 import readingTime from 'reading-time'
 import { extractTocHeadings } from 'pliny/mdx-plugins/index.js'
-import configs from '../publish.config'
-import { getPermalinks } from '@portaljs/remark-wiki-link'
-import { permaLinkParser } from '../plugins/libs/permalinkParser'
 import _ from 'lodash'
-import pluralize from 'pluralize'
+import { resolvePermalink } from '../libs/permalink-resolver'
 
-const { target_root, vault_root } = configs
+const publish_root = process.env.PUBLISH_ROOT ?? 'publish'
+const vault_root = process.env.VAULT_ROOT ?? 'vault'
 
-const permalinks = getPermalinks(vault_root)
+const resolveWikiLinks = (data) => data.array().map((token) => resolvePermalink(token))
 
-const parsePermalink = permaLinkParser({
-  vault_root,
-  target_root,
-  pathFormat: 'obsidian-short',
-  permalinks,
-})
+const resolvePreviewData = (doc) => doc.cover && resolvePermalink(doc.cover)
 
-const resolveSlug = (type:string):string => {
- switch(type){
-  case 'blog':
-    return 'writing';
-  case 'course':
-    return 'teaching';
-  default:
-      return type;
+const resolveSlug = (type: string): string => {
+  switch (type) {
+    case 'blog':
+      return 'writing'
+    case 'course':
+      return 'teaching'
+    default:
+      return type
   }
 }
 
@@ -46,4 +39,4 @@ const computedFields: ComputedFields = {
   toc: { type: 'string', resolve: (doc) => extractTocHeadings(doc.body.raw) },
 }
 
-export { computedFields, target_root, vault_root, permalinks, parsePermalink }
+export { computedFields, vault_root, publish_root, resolvePreviewData, resolveWikiLinks }

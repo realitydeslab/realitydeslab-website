@@ -1,4 +1,4 @@
-import { __ } from '@/plugins/libs/utils'
+import { __ } from '@/libs/utils'
 import moment from 'moment'
 import { wikilinks, joinAnchors } from './helpers/Common'
 

@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import { glob } from 'glob'
 import matter from 'gray-matter'
-import { fileIsPublished } from './utils.mjs'
+import { vault_root as root, cache_root, fileIsPublished } from './utils.mjs'
 import path from 'path'
 import chalk from 'chalk'
 import _ from 'lodash'
@@ -11,10 +11,10 @@ export const handlePermalinks = async () => {
   console.log('handle permalinks..')
   let permalinks = {}
 
-  const search = 'vault/**/*.md',
-    ignore = ['vault/_*/**', 'vault/**/_*']
+  const search = '/**/*.md',
+    ignore = ['/_*/**', '/**/_*']
 
-  const files = await glob(search, { ignore })
+  const files = await glob(search, { ignore, root })
 
   files.forEach((file) => {
     const content = fs.readFileSync(file, 'utf-8')
@@ -28,6 +28,6 @@ export const handlePermalinks = async () => {
     }
   })
 
-  fs.outputFileSync('cache/permalinks.json', JSON.stringify(permalinks))
-  console.log('cache/permalinks.json created.')
+  fs.outputFileSync(`${cache_root}/permalinks.json`, JSON.stringify(permalinks))
+  console.log(`${cache_root}/permalinks.json created.`)
 }

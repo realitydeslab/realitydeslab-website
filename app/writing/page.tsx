@@ -1,5 +1,5 @@
 import { allBlogs } from 'contentlayer/generated'
-import { __, allPublishedContent } from '@/plugins/libs/utils'
+import { __, allPublishedContent } from '@/libs/utils'
 import EntryPost from '@/components/EntryPost'
 
 export default async function Page() {
@@ -13,4 +13,3 @@ export default async function Page() {
     </div>
   )
 }
- 

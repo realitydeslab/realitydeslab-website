@@ -25,7 +25,7 @@ export const handleEntries = async () => {
     }
   })
 
-  fs.outputFileSync('cache/entries.json', JSON.stringify(entries))
+  fs.outputFileSync('cache/entries', JSON.stringify(entries))
 
-  console.log('cache/entries.json created.')
+  console.log('cache/entries created.')
 }
