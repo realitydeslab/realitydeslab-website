@@ -1,5 +1,5 @@
 import { sync } from 'probe-image-size'
-import { dirname } from 'path'
+import path, { dirname } from 'path'
 import fs from 'fs-extra'
 import { Node } from 'unist'
 import { visit } from 'unist-util-visit'
@@ -14,7 +14,8 @@ type WikiLink = {
     permalink: string
     hName: string
     hProperties: {
-      src: string
+      href?: string
+      src?: string
       type: string
       alt: string
     }
@@ -62,10 +63,15 @@ function isTransclusions(node: WikiLink): boolean {
   return (node?.isType && node.isType == 'transclusions') || false
 }
 
+function isPDF(node: WikiLink): boolean {
+  return path.parse(node.data.permalink).ext === '.pdf'
+}
+
 function remarkParseMedia(opts: remarkParseImageOptions = { useJSX: false }) {
   return (tree: Node) => {
     visit(tree, 'wikiLink', (node: WikiLink) => {
       if (isTransclusions(node)) {
+        console.log(chalk.bgCyan(`[remark-parse-media] image:${node.data.permalink}`))
         let permalink = resolveMedia(node?.data?.permalink)
         node.data.permalink = permalink
 
@@ -74,6 +80,11 @@ function remarkParseMedia(opts: remarkParseImageOptions = { useJSX: false }) {
         } else {
           node.data.hProperties.src = permalink
         }
+      } else if (isPDF(node)) {
+        console.log(chalk.bgCyan(`[remark-parse-media] pdf:${node.data.permalink}`))
+        let permalink = resolveMedia(node?.data?.permalink)
+        node.data.permalink = permalink
+        node.data.hProperties.href = permalink
       }
     })
   }

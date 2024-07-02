@@ -13,7 +13,7 @@ export const handleEntries = async () => {
     ignore = ['/_*/**', '/**/_*']
 
   const files = await glob(search, { ignore, root })
-
+  let total = 0
   files.forEach((file) => {
     const content = fs.readFileSync(file, 'utf-8')
     const front = matter(content)
@@ -22,10 +22,11 @@ export const handleEntries = async () => {
       const filename = path.parse(file).name
       console.log(chalk.bgGreen(`[entry] ${filename}`))
       entries[filename] = front.data
+      total++
     }
   })
 
   fs.outputFileSync(`${cache_root}/entries.json`, JSON.stringify(entries))
 
-  console.log(`${cache_root}/entries.json created.`)
+  console.log(`${cache_root}/entries.json created. total:${total}`)
 }

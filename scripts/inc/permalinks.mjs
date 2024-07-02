@@ -15,7 +15,7 @@ export const handlePermalinks = async () => {
     ignore = ['/_*/**', '/**/_*']
 
   const files = await glob(search, { ignore, root })
-
+  let total = 0
   files.forEach((file) => {
     const content = fs.readFileSync(file, 'utf-8')
     const front = matter(content)
@@ -25,9 +25,10 @@ export const handlePermalinks = async () => {
         { slug, type } = front.data
       permalinks[filename] = `/${pluralize(_.toLower(type))}/${slug}`
       console.log(chalk.bgGreen(`[${type}]`), ` ${filename} -> ${permalinks[filename]}`)
+      total++
     }
   })
 
   fs.outputFileSync(`${cache_root}/permalinks.json`, JSON.stringify(permalinks))
-  console.log(`${cache_root}/permalinks.json created.`)
+  console.log(`${cache_root}/permalinks.json created. total:${total}`)
 }

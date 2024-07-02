@@ -5,7 +5,7 @@ import path from 'path'
 import permalinks from '../.cache/permalinks.json' assert { type: 'json' }
 import medias from '../.cache/medias.json' assert { type: 'json' }
 
-const supportedFileFormats = ['zip', 'bib', 'csl']
+const supportedFileFormats = ['zip', 'bib', 'csl', 'pdf']
 
 const supportedMediaFormats = [
   'webp',
@@ -18,7 +18,6 @@ const supportedMediaFormats = [
   'png',
   'avif',
   'ico',
-  'pdf',
 ]
 
 const videoFileFormats = ['mp4', 'mov', 'webm']
@@ -49,6 +48,7 @@ function resolveWikilink(wikilink: string): { filepath: string; label?: string }
 //wikilink:[[file|alias?]]
 function resolvePermalink(wikilink: string): PermalinkResult {
   const { filepath, label } = resolveWikilink(wikilink)
+
   if (filepath == '') {
     return { type: 'link', uri: '/' }
   }

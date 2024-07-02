@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params
   const page = allPages.find((p) => p.slug == slug) as BasePage
   return (
-    <Article slug={page.slug}>
+    <Article slug={page?.slug}>
       <ArticleHeader>
         <ArticleTitle prefix={page.title_prefix}>{page.page_title ?? page.title}</ArticleTitle>
       </ArticleHeader>
