@@ -5,7 +5,6 @@ import { vault_root as root, cache_root, fileIsPublished } from './utils.mjs'
 import path from 'path'
 import chalk from 'chalk'
 import _ from 'lodash'
-import pluralize from 'pluralize'
 
 export const handlePermalinks = async () => {
   console.log('handle permalinks..')
@@ -23,7 +22,7 @@ export const handlePermalinks = async () => {
     if (fileIsPublished(front.data)) {
       const filename = path.parse(file).name,
         { slug, type } = front.data
-      permalinks[filename] = `/${pluralize(_.toLower(type))}/${slug}`
+      permalinks[filename] = `/${_.toLower(type)}/${slug}`
       console.log(chalk.bgGreen(`[${type}]`), ` ${filename} -> ${permalinks[filename]}`)
       total++
     }

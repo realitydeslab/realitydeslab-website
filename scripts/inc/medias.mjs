@@ -5,7 +5,6 @@ import { vault_root as root, cache_root, fileIsPublished } from './utils.mjs'
 import path from 'path'
 import chalk from 'chalk'
 import _ from 'lodash'
-import pluralize from 'pluralize'
 
 export const handleMedias = async () => {
   console.log('handle medias..')
