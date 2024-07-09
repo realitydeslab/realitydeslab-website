@@ -23,7 +23,7 @@ const headerNavLinks = [
   { href: '/teaching', title: 'teaching' },
   { href: '/writing', title: 'writing' },
   { href: '/about-reality-design-lab', title: 'about' },
-  { href: '/people', title: 'people' },
+  { href: '/people', title: 'founder' },
   { href: '/join-us', title: 'join us' },
 ]
 

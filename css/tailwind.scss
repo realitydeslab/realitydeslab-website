@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+b,
+strong {
+  font-weight: 500;
+}
+
 .task-list-item::before {
   @apply hidden;
 }
@@ -91,7 +96,7 @@ input:-webkit-autofill:focus {
     @apply list-outside pl-4;
     li {
       &::marker {
-        @apply text-primary-500;
+        @apply text-primary-900;
       }
     }
   }
