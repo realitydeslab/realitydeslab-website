@@ -307,3 +307,9 @@ input:-webkit-autofill:focus {
 .h-screen {
   height: 100dvh;
 }
+
+.x-hover-video-player {
+  video {
+    @apply h-full;
+  }
+}
