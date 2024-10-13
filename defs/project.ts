@@ -45,6 +45,7 @@ export const Project = defineDocumentType(() => ({
     credits: { type: 'list', of: { type: 'json' } },
     otherEntries: { type: 'list', of: { type: 'string' }, default: [] },
     citation: { type: 'string' },
+    order: { type: 'number', default: 0 },
   },
   computedFields: {
     ...computedFields,

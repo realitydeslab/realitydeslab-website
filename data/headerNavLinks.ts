@@ -1,9 +1,17 @@
 import { allProjects, allCodes, allCourses } from 'contentlayer/generated'
 import { allPublishedContent } from '@/libs/utils'
 
-const projects = allPublishedContent(allProjects).map((project) => {
-  return { title: project.title, href: project.url, codename: project.codename }
-})
+type Orderable = {
+  order?: number
+}
+
+const sortByOrder = (a: Orderable, b: Orderable) => (b.order || 0) - (a.order || 0)
+
+const projects = allPublishedContent(allProjects)
+  .sort(sortByOrder)
+  .map((project) => {
+    return { title: project.title, href: project.url, codename: project.codename }
+  })
 
 const codes = allPublishedContent(allCodes).map((project) => {
   return { title: project.title, href: project.url, codename: project.codename }
