@@ -5,7 +5,7 @@ type Orderable = {
   order?: number
 }
 
-const sortByOrder = (a: Orderable, b: Orderable) => (b.order || 0) - (a.order || 0)
+export const sortByOrder = (a: Orderable, b: Orderable) => (b.order || 0) - (a.order || 0)
 
 const projects = allPublishedContent(allProjects)
   .sort(sortByOrder)
