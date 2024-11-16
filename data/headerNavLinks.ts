@@ -26,6 +26,12 @@ const courses = allPublishedContent(allCourses).map((project) => {
   return { title: project.title, href: project.url, codename: project.codename }
 })
 
+const abouts = [
+  { title: 'about lab', href: '/about-reality-design-lab', codename: 'about lab' },
+  { title: 'about founder', href: '/founder', codename: 'about founder' },
+  { title: 'join us', href: '/join-us', codename: 'join us' },
+]
+
 const headerNavLinks = [
   { href: '/', title: 'Home' },
   { href: '/project', title: 'projects', children: projects },
@@ -35,9 +41,12 @@ const headerNavLinks = [
   // { href: '/research', title: 'research' },
   // { href: '/code', title: 'open source', children: codes },
   // { href: '/teaching', title: 'teaching', children: courses },
-  { href: '/about-reality-design-lab', title: 'about' },
-  { href: '/founder', title: 'founder' },
-  { href: '/join-us', title: 'join us' },
+  { href: '/publications', title: 'publications'},
+  { href: '/about', title: 'about', children: abouts },
+
+  // { href: '/about-reality-design-lab', title: 'about' },
+  // { href: '/founder', title: 'founder' },
+  // { href: '/join-us', title: 'join us' },
 ]
 
 export default headerNavLinks
