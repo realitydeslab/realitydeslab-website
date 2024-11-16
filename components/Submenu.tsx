@@ -16,9 +16,10 @@ const Submenu = ({ title, children, open = false }: Props) => {
     <div className="flex flex-col gap-4">
       <button
         className={
-          pathname == '/'
-            ? 'cursor-pointer text-left text-primary-900'
-            : 'duration-400 cursor-pointer text-left text-primary-500 transition-all hover:text-primary-900'
+          // pathname == '/'
+          //   ? 'cursor-pointer text-left text-primary-900'
+          // :
+             'duration-400 cursor-pointer text-left text-primary-500 transition-all hover:text-primary-900'
         }
         onClick={() => setMenuShow(!menuShow)}
       >
