@@ -1,7 +1,7 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
   title: 'reality design lab',
-  author: 'Holokit',
+  author: 'Botao Amber Hu',
   headerTitle: 'reality design lab',
   description: 'design new realities',
   language: 'en-us',
@@ -9,9 +9,9 @@ const siteMetadata = {
   siteUrl: 'https://reality.design',
   socialBanner: '/static/images/twitter-card.png',
   // mastodon: 'https://mastodon.social/@mastodonuser',
-  // email: 'address@yoursite.com',
-  // github: 'https://github.com',
-  // twitter: 'https://twitter.com/Twitter',
+  email: 'future@reality.design',
+  github: 'https://github.com/realitydeslab',
+  twitter: 'https://twitter.com/realitydeslab',
   // facebook: 'https://facebook.com',
   // youtube: 'https://youtube.com',
   // linkedin: 'https://www.linkedin.com',

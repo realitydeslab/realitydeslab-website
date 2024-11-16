@@ -1,4 +1,4 @@
-import { allProjects, allCodes, allCourses } from 'contentlayer/generated'
+import { allProjects, allCodes, allCourses, allBlogs } from 'contentlayer/generated'
 import { allPublishedContent } from '@/libs/utils'
 
 type Orderable = {
@@ -13,6 +13,11 @@ const projects = allPublishedContent(allProjects)
     return { title: project.title, href: project.url, codename: project.codename }
   })
 
+
+const blogs = allPublishedContent(allBlogs).map((project) => {
+  return { title: project.title, href: project.url, codename: project.codename }
+})
+
 const codes = allPublishedContent(allCodes).map((project) => {
   return { title: project.title, href: project.url, codename: project.codename }
 })
@@ -24,12 +29,12 @@ const courses = allPublishedContent(allCourses).map((project) => {
 const headerNavLinks = [
   { href: '/', title: 'Home' },
   { href: '/project', title: 'projects', children: projects },
+  { href: '/writing', title: 'writings', children: blogs },
+  { href: '/toolkit', title: 'toolkits', children: codes },
+  { href: '/teaching', title: 'teachings', children: courses },
   // { href: '/research', title: 'research' },
   // { href: '/code', title: 'open source', children: codes },
-  { href: '/code', title: 'open source' },
   // { href: '/teaching', title: 'teaching', children: courses },
-  { href: '/teaching', title: 'teaching' },
-  { href: '/writing', title: 'writing' },
   { href: '/about-reality-design-lab', title: 'about' },
   { href: '/founder', title: 'founder' },
   { href: '/join-us', title: 'join us' },

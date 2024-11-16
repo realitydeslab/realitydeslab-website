@@ -70,7 +70,11 @@ function searchMedia(filename: string, root: string): string | null {
 }
 
 const resolveMedia = (filename: string): string => {
-  // console.log(chalk.bgBlue(`[resolveMedia] ${filename}`))
+//  console.log(chalk.bgBlue(`[resolveMedia] ${filename}`))
+  if (isFile(filename)) {
+    console.log(chalk.bgBlue(`[resolveMedia] ${filename}`))
+  }
+
   const vault_root = `${process.cwd()}/${process.env.VAULT_ROOT || 'vault'}`
   const source = searchMedia(filename, vault_root)
 

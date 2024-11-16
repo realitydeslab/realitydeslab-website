@@ -12,6 +12,7 @@ export const Blog = defineDocumentType(() => ({
   fields: {
     title: { type: 'string', required: true },
     slug: { type: 'string', required: true },
+    codename: { type: 'string', required: true },
     draft: { type: 'boolean' },
     published: { type: 'boolean' },
     tags: { type: 'list', of: { type: 'string' }, default: [] },
@@ -27,8 +28,9 @@ export const Blog = defineDocumentType(() => ({
     relatedWorks: { type: 'list', of: { type: 'string' } },
     categories: { type: 'list', of: { type: 'string' } },
     // layout: { type: 'string' },
-    // bibliography: { type: 'string' },
+    bibliography: { type: 'string' },
     // canonicalUrl: { type: 'string' },
+    // order: { type: 'number', default: 0 },
   },
   computedFields: {
     ...computedFields,
