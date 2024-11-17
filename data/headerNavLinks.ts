@@ -28,7 +28,7 @@ const courses = allPublishedContent(allCourses).map((project) => {
 
 const abouts = [
   { title: 'reality design lab', href: '/about-reality-design-lab', codename: 'reality design lab' },
-  { title: 'botao amber hu', href: '/founder', codename: 'botao amber hu' },
+  { title: 'botao amber hu', href: '/botao-amber-hu', codename: 'botao amber hu' },
   { title: 'reality designers', href: '/reality-designers', codename: 'reality designers' },
   { title: 'collab with us', href: '/collab-with-us', codename: 'collab with us' },
 ]
