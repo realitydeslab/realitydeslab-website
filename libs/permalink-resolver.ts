@@ -101,7 +101,7 @@ const resolveMedia = (filename: string): string => {
     return permalink
   } else {
     console.log(chalk.bgRed(`[source file not found.] ${source}`))
-    return process.env.PLACEHOLDER_IMAGE || 'placeholder.webp'
+    return process.env.PLACEHOLDER_IMAGE || '/placeholder.webp'
   }
 }
 
