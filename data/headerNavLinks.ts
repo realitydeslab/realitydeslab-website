@@ -43,10 +43,10 @@ const headerNavLinks = [
   // { href: '/code', title: 'open source', children: codes },
   // { href: '/teaching', title: 'teaching', children: courses },
   { href: '/publications', title: 'publications'},
+  { href: '/fellowships', title: 'fellowships' },
   { href: '/about', title: 'about', children: abouts },
 
   // { href: '/about-reality-design-lab', title: 'about' },
-  // { href: '/founder', title: 'founder' },
   // { href: '/join-us', title: 'join us' },
 ]
 
