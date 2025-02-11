@@ -23,6 +23,7 @@ export const Code = defineDocumentType(() => ({
     version: { type: 'string' },
     repos: { type: 'list', of: { type: 'string' }, default: [] },
     relatedWorks: { type: 'list', of: { type: 'string' } },
+    lastmod: { type: 'string' },
   },
   computedFields: {
     ...computedFields,

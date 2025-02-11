@@ -23,6 +23,7 @@ export const Page = defineDocumentType(() => ({
     topics: { type: 'list', of: { type: 'string' } },
     relatedWorks: { type: 'list', of: { type: 'string' } },
     categories: { type: 'list', of: { type: 'string' } },
+    authors: { type: 'list', of: { type: 'string' } },
   },
   computedFields: {
     ...computedFields,
