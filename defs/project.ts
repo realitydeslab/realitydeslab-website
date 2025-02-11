@@ -46,7 +46,6 @@ export const Project = defineDocumentType(() => ({
     otherEntries: { type: 'list', of: { type: 'string' }, default: [] },
     citation: { type: 'string' },
     order: { type: 'number', default: 0 },
-    'other entries': { type: 'string' },
     repository: { type: 'string' },
     website: { type: 'string' },
     publication: { type: 'string' },
