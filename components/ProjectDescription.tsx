@@ -28,7 +28,7 @@ export default function ProjectDescription() {
   }, [pathname])
 
   return (
-    <div className="x-project-desc absolute inset-x-0 bottom-0 p-10">
+    <div className="x-project-desc pt-10 mt-auto">
       <h3 className="text-[1.25rem] leading-tight">{desc && desc.title}</h3>
       {desc && showYearRange(desc.year_range) && <p className="text-sm">{desc.year_range}</p>}
       <p className="mt-3 text-sm">
