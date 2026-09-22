@@ -18,14 +18,18 @@ const run = promisify(execFile)
 // a fixed quality, in place. Every file is committed to Git LFS, so
 // `git checkout <commit> -- <path>` restores any original.
 
-// Previews loop muted inside a card no wider than about 1400px, so the 55% of
-// pixels above 1280 are decoded and thrown away. Dropping to 1280 saves more
-// than tightening quality would: on the worst offender, 1920/CRF30 gives 9.42MB
-// while 1280/CRF32 gives 4.94MB. Full duration is preserved and the unused
-// audio track is dropped.
-const MAX_WIDTH = 1280
-const CRF = 32
+// Keep each source at its own resolution: a card is about 1400px wide, and on
+// a 2x display that needs ~2800 physical pixels, so downscaling to 1280 is
+// visibly soft. This caps at 1920 and never shrinks a 1280 source, changing
+// only the codec and the bitrate, which range from 867k to 7595k across these
+// files for the same 1080p frame. Full duration is kept; the silent audio
+// track is dropped.
+const MAX_WIDTH = 1920
+const CRF = 26
 const PRESET = 6
+
+// Encoding one file at a time leaves most of a ten-core machine idle.
+const CONCURRENCY = 4
 
 const apply = process.argv.includes('--apply')
 
@@ -70,7 +74,8 @@ const encode = (source, target) =>
 const applyRenames = async (renames) => {
   if (!renames.length) return 0
   const documents = await glob('**/*.md', {
-    cwd: vault_root, absolute: true, ignore: ['**/.*/**'], follow: true,
+    // Archived snapshots record what a document said at the time; leave them.
+    cwd: vault_root, absolute: true, ignore: ['**/_archive/**', '**/.*/**'], follow: true,
   })
   let touched = 0
   for (const document of documents) {
@@ -92,11 +97,11 @@ const main = async () => {
   let rewritten = 0
   let left = 0
 
-  for (const [name] of names) {
+  const convert = async (name) => {
     const source = await resolveSource(name)
     if (!source) {
       console.log(chalk.yellow(`  missing ${name}`))
-      continue
+      return
     }
     const target = source.replace(/\.[^./\\]+$/, '.mp4')
     const staging = `${target}.partial.mp4`
@@ -106,7 +111,7 @@ const main = async () => {
       console.log(chalk.yellow(`  skip ${name}: ${error.message.split('\n')[0]}`))
       fs.removeSync(staging)
       left += 1
-      continue
+      return
     }
     const originalSize = fs.statSync(source).size
     const newSize = fs.statSync(staging).size
@@ -115,7 +120,7 @@ const main = async () => {
       fs.removeSync(staging)
       left += 1
       console.log(chalk.gray(`  keep ${name} (${(originalSize / 1048576).toFixed(1)}MB, re-encode was larger)`))
-      continue
+      return
     }
     console.log(
       `  ${(originalSize / 1048576).toFixed(1)}M -> ${(newSize / 1048576).toFixed(1)}M  ` +
@@ -134,6 +139,13 @@ const main = async () => {
       fs.removeSync(staging)
     }
   }
+
+  const queue = [...names.keys()]
+  await Promise.all(
+    Array.from({ length: CONCURRENCY }, async () => {
+      for (let next = queue.pop(); next; next = queue.pop()) await convert(next)
+    })
+  )
 
   const touched = await applyRenames(renames)
   const saved = originalBytes ? Math.round(100 - (100 * newBytes) / originalBytes) : 0

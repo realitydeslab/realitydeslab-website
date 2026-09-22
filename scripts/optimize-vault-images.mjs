@@ -59,7 +59,7 @@ const usesTransparency = async (file) => {
  */
 const repairReferences = async () => {
   const assets = await glob('**/_resources/**/*', {
-    cwd: vault_root, absolute: true, nodir: true, follow: true,
+    cwd: vault_root, absolute: true, nodir: true, follow: true, ignore: ['**/_archive/**'],
   })
   const present = new Set(assets.map((asset) => path.basename(asset)))
   // stem -> the extension that now exists, for stems with exactly one candidate
@@ -94,7 +94,8 @@ const repairReferences = async () => {
 
 const main = async () => {
   const sources = await glob('**/_resources/**/*.png', {
-    cwd: vault_root, absolute: true, nodir: true, follow: true,
+    // Archived material is the record of what an asset originally was.
+    cwd: vault_root, absolute: true, nodir: true, follow: true, ignore: ['**/_archive/**'],
   })
   let originalBytes = 0
   let newBytes = 0
