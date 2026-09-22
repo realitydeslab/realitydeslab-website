@@ -136,12 +136,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
           {project.year_range && <p>{project.year_range}</p>}
           <Authors authors={project.authors} />
         </ArticleMeta>
-        <IframeVideo videos={project.videos}></IframeVideo>
+        <IframeVideo videos={project.videos} aspects={project.videoAspect} />
       </ArticleHeader>
       <section className="x-content">
         <MDXLayoutRenderer code={project.body.code} components={components} toc={project.toc} />
         <Links title="Websites" links={project.websites} target="_blank" />
-        <Links title="Repos" links={project.repos} target="_blank" />
+        <Links title="Repository" links={project.repos} target="_blank" />
         <Publications project={project} />
         <Citation>{project.citation}</Citation>
         <Metadata project={project} />

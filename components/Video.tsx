@@ -21,7 +21,7 @@ export default function Video({ src, title = 'Project video', pauseWhenSlideChan
 
   return (
     <figure className="x-video min-w-0">
-      <video {...props} ref={ref} src={src} aria-label={title} controls playsInline preload="metadata"
+      <video {...props} ref={ref} src={src} aria-label={title} controls playsInline={false} preload="metadata"
         className="aspect-video w-full bg-black object-contain"
         onError={() => setMessage('This video could not load.')}
       />
