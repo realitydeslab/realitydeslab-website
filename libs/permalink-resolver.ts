@@ -4,6 +4,7 @@ import chalk from 'chalk'
 import path from 'path'
 import permalinks from '../.cache/permalinks.json'
 import medias from '../.cache/medias.json'
+import derivatives from '../.cache/derivatives.json'
 import { wikiTarget } from './wiki-target.mjs'
 
 const supportedFileFormats = ['zip', 'bib', 'csl', 'pdf']
@@ -86,18 +87,25 @@ const resolveMedia = (filename: string): string => {
   if (source && fs.existsSync(source)) {
     const public_path = `${process.cwd()}/public`
     const publish_root = `${process.env.PUBLISH_ROOT || 'publish'}`
-    const ext = path.extname(filename).replace('.', '')
-    const permalink = `/${publish_root}/${filename}`
+    // Oversized archival originals are re-encoded once during prebuild; serve
+    // that deliverable when one exists, under the same name but its extension.
+    const derivative = (derivatives as Record<string, { target: string; extension: string }>)[source]
+    const deliverable = derivative ? derivative.target : source
+    const published = derivative
+      ? filename.replace(/\.[^./\\]+$/, derivative.extension)
+      : filename
+    const ext = path.extname(published).replace('.', '')
+    const permalink = `/${publish_root}/${published}`
     const target = `${public_path}/${permalink}`
 
-    if (fs.existsSync(target) && fs.statSync(target).size === fs.statSync(source).size && fs.statSync(target).mtimeMs >= fs.statSync(source).mtimeMs) {
+    if (fs.existsSync(target) && fs.statSync(target).size === fs.statSync(deliverable).size && fs.statSync(target).mtimeMs >= fs.statSync(deliverable).mtimeMs) {
       console.log(chalk.gray(`[target file exist.] ${permalink}`))
     } else {
       console.log(chalk.bgGreen(`[copy file] ${permalink}`))
       console.log(chalk.green(`[source] ${source}`))
       console.log(chalk.green(`[target] ${target}`))
       fs.ensureDirSync(dirname(target))
-      fs.copyFileSync(source, target)
+      fs.copyFileSync(deliverable, target)
     }
     if (ext == 'pdf') {
       return `${permalink}?view=Fit`

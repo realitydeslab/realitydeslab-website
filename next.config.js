@@ -67,8 +67,13 @@ module.exports = () => {
     reactStrictMode: true,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     images: {
+      // AVIF first, WebP for anything that cannot take it. Next picks per the
+      // request's Accept header, so older browsers still get WebP.
+      formats: ['image/avif', 'image/webp'],
       deviceSizes: [640, 768, 1080, 1280, 1920, 2048, 2560],
       imageSizes: [16, 32, 48, 64, 96, 128, 256],
+      // Covers are content-stable; re-deriving them every 4 hours is waste.
+      minimumCacheTTL: 2592000,
     },
     async headers() {
       return [
