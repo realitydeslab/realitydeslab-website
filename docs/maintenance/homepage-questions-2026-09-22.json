@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Skywand",
+    "id": "3e35c6192b7e819788cdc03663168be4",
+    "file": "vault/Projects/Skywand/Skywand.md",
+    "slug": "skywand",
+    "question": "",
+    "description": "Draw a camera path in 3D, then let a drone fly it.",
+    "source": "Shortened existing project description; no Notion question exists",
+    "previous_description": "description: Skywand is an advanced motion control system for aerial cinematography that combines ease of use, repeatability, and precision."
+  },
+  {
+    "name": "HoloKit X",
+    "id": "2755c6192b7e80419a11dd295070afb8",
+    "file": "vault/Projects/HoloKit X/HoloKit X.md",
+    "slug": "holokit-x",
+    "question": "Why spend $3,500 on a HoloLens?",
+    "description": "Why spend $3,500 on a HoloLens?",
+    "source": "Notion Provocation",
+    "previous_description": "description: HoloKit is an award-winning open-source Mixed Reality (MR) toolkit that transforms your smartphone into an affordable optical see-through augmented reality headset designed for spatial computing enthusiasts."
+  },
+  {
+    "name": "HoloKit 1",
+    "id": "3e35c6192b7e81d4895ecff2bc34196b",
+    "file": "vault/Projects/HoloKit 1/HoloKit 1.md",
+    "slug": "holokit-1",
+    "question": "",
+    "description": "Mixed reality with a cardboard headset and your smartphone.",
+    "source": "Shortened existing project description; no Notion question exists",
+    "previous_description": "description: HoloKit 1, the low cost open source mixed reality experience, which includes the HeadKit cardboard headset. With your smartphone and Mixed Reality apps, HoloKit 1 provides you access to the world of Mixed Reality right in your hands, affordably."
+  },
+  {
+    "name": "GravField",
+    "id": "2755c6192b7e800591bbedbac5e731c2",
+    "file": "vault/Projects/GravField/GravField.md",
+    "slug": "gravfield",
+    "question": "How Mixed Reality Objects Shape Intercorporeal Movements?",
+    "description": "How Mixed Reality Objects Shape Intercorporeal Movements?",
+    "source": "Notion Provocation",
+    "previous_description": "description: '\"GravField\" is a new interface for musical expression and live performance that explores intercorporeality as live-coding instruments within a co-located augmented reality field.'"
+  },
+  {
+    "name": "FungiSync",
+    "id": "2755c6192b7e803b97daf2b0e977796d",
+    "file": "vault/Projects/FungiSync/FungiSync.md",
+    "slug": "fungisync",
+    "question": "What if our realities became entangled with others' like fungi's interdependence?",
+    "description": "What if our realities became entangled with others' like fungi's interdependence?",
+    "source": "Notion Provocation",
+    "previous_description": "description: FungiSync is a mixed reality performance where participants wear mushroom-themed MR masks, each embodying a unique worldview. Through ritualized handshakes, they exchange perspectives, mirroring the resource-sharing of mycorrhizal networks' \"Wood Wide Web“."
+  },
+  {
+    "name": "EchoVision",
+    "id": "2755c6192b7e80638d0ff92dae1a6e45",
+    "file": "vault/Projects/EchoVision/EchoVision.md",
+    "slug": "echovision",
+    "question": "What Is It Like to Be a Bat?",
+    "description": "What Is It Like to Be a Bat?",
+    "source": "Notion Provocation",
+    "previous_description": "description: EchoVision is an immersive art installation that allows participants to experience the world of bats using sound visualization and mixed reality technology."
+  },
+  {
+    "name": "Cybroc",
+    "id": "2755c6192b7e801eaafcdb9f48c18690",
+    "file": "vault/Projects/Cybroc/Cybroc.md",
+    "slug": "cybroc",
+    "question": "Would you choose 80 years of natural life or perhaps 100+ years of an artificialized life mechanized by protocols?",
+    "description": "Would you choose 80 years of natural life or perhaps 100+ years of an artificialized life mechanized by protocols?",
+    "source": "Notion Provocation",
+    "previous_description": "description: '\"Cybroc\" is a series of kinetic art installations challenging longevity activism through the satirical cyborgization of broccoli.'"
+  },
+  {
+    "name": "Composable Life",
+    "id": "2755c6192b7e80048c73e490c9fd4768",
+    "file": "vault/Projects/Composable Life/Composable Life.md",
+    "slug": "composable-life",
+    "question": "If an immortal AI life could live forever in cyberspace, how would it find meaning or purpose?",
+    "description": "If an immortal AI life could live forever in cyberspace, how would it find meaning or purpose?",
+    "source": "Notion Provocation",
+    "previous_description": "description: '\"Composable Life\" is a speculative design fiction that speculate the on-chain autonomous lifes driven by AI in near future.'"
+  },
+  {
+    "name": "Cell Space",
+    "id": "2755c6192b7e80b89161e39dbfa55fa4",
+    "file": "vault/Projects/Cell Space/Cell Space.md",
+    "slug": "cell-space",
+    "question": "What if you could see others’ heartbeats while dancing with them?",
+    "description": "What if you could see others’ heartbeats while dancing with them?",
+    "source": "Notion Provocation",
+    "previous_description": "description: An interactive art experience that integrates collocated augmented reality, neurofeedback, and contact improvisation, challenging the conventional boundaries between audience and performer, and blending the physical with the virtual, organic with technological."
+  },
+  {
+    "name": "Body Oracle",
+    "id": "2755c6192b7e80bb8e68f067905eff14",
+    "file": "vault/Projects/Body Oracle/Body Oracle.md",
+    "slug": "body-oracle",
+    "question": "What if our language contained characters that specifically conveyed our awareness of body language?",
+    "description": "What if our language contained characters that specifically conveyed our awareness of body language?",
+    "source": "Notion Provocation",
+    "previous_description": "description: Inspired by Chinese Oracle-Bone Inscription, \"Body Oracle\" proposes hieroglyphs for expressing complex inter-bodily interactions in an era dominated by verbal communication."
+  },
+  {
+    "name": "AI Mom™",
+    "id": "3c55c6192b7e807aa432f00b5ef1f4e8",
+    "file": "vault/Projects/AIMom/AIMom.md",
+    "slug": "aimom",
+    "question": "If AI Mom takes care of you, who owns your mom’s agency?",
+    "description": "If AI Mom takes care of you, who owns your mom’s agency?",
+    "source": "Notion Provocation",
+    "previous_description": "description: An interactive nursery where visitors configure an AI mother and encounter care as a relationship shaped by memory, autonomy, and the power to replace her."
+  },
+  {
+    "name": "MOFA",
+    "id": "2755c6192b7e80a4bed0fa1529a55446",
+    "file": "vault/Projects/MOFA.ar/MOFA.ar.md",
+    "slug": "mofa",
+    "question": "Can Muggles Understand What It's Like to Be a Wizard?",
+    "description": "Can Muggles Understand What It's Like to Be a Wizard?",
+    "source": "Notion Provocation",
+    "previous_description": "description: \"MOFA: Multiplayer Omnipresent Fighting Arena -  A Real-world face-to-face multiplayer mixed reality games\""
+  },
+  {
+    "name": "City of Sparkles",
+    "id": "2755c6192b7e8085b06bf36083dd2923",
+    "file": "vault/Projects/City of Sparkles/City Of Sparkles.md",
+    "slug": "city-of-sparkles",
+    "question": "How might an AI Life perceive our city?",
+    "description": "How might an AI Life perceive our city?",
+    "source": "Notion Provocation",
+    "previous_description": "description: \"\\\"City of Sparkles\\\" is an interactive virtual reality experience that immerses participants in an AI's perspective, visualizing a city of human memory fragments through spatialized Twitter data.\""
+  },
+  {
+    "name": "FeltSight",
+    "id": "2755c6192b7e80debd3bc4366dc15142",
+    "file": "vault/Projects/FeltSight/FeltSight.md",
+    "slug": "feltsight",
+    "question": "What if you could feel your surroundings without seeing them?",
+    "description": "What if you could feel your surroundings without seeing them?",
+    "source": "Notion Provocation",
+    "previous_description": "description: FeltSight pairs haptic gloves with mixed reality to explore the surroundings through touch. Inspired by the star-nosed mole, it translates nearby surfaces into fingertip vibrations while reducing visual information."
+  }
+]
