@@ -30,13 +30,11 @@ const AV1_PRESET = 6
 
 const derivative_root = `${cache_root}/derivatives`
 
-const fingerprint = (source, recipe) => {
-  const stat = fs.statSync(source)
-  return crypto
-    .createHash('sha1')
-    .update(`${source}:${stat.size}:${Math.round(stat.mtimeMs)}:${recipe}`)
-    .digest('hex')
-}
+// Content-addressed, not path- or mtime-addressed: a fresh CI checkout gives
+// every file a new mtime, and the vault is checked out at a different path
+// there, so either would miss the cache on every run and re-encode everything.
+const fingerprint = (source, recipe) =>
+  crypto.createHash('sha1').update(recipe).update(fs.readFileSync(source)).digest('hex')
 
 const buildImage = async (source, target) => {
   const metadata = await sharp(source).metadata()
