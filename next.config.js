@@ -7,13 +7,17 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 // You might need to insert additional domains in script-src if you are using external services
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline';
+  script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''};
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
   media-src 'self';
-  connect-src *;
+  connect-src 'self'${process.env.NODE_ENV === 'development' ? ' ws: wss:' : ''};
   font-src 'self' data:;
-  frame-src player.vimeo.com www.youtube.com;
+  frame-src https://player.vimeo.com https://www.youtube.com https://www.youtube-nocookie.com;
+  object-src 'none';
+  base-uri 'self';
+  form-action 'self';
+  frame-ancestors 'none';
 `
 
 const securityHeaders = [
@@ -50,7 +54,7 @@ const securityHeaders = [
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=()',
+    value: 'camera=(), microphone=(), geolocation=(), fullscreen=(self "https://player.vimeo.com" "https://www.youtube.com" "https://www.youtube-nocookie.com")',
   },
 ]
 
@@ -62,9 +66,6 @@ module.exports = () => {
   return plugins.reduce((acc, next) => next(acc), {
     reactStrictMode: true,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-    eslint: {
-      dirs: ['app', 'components', 'layouts', 'scripts'],
-    },
     images: {
       deviceSizes: [640, 768, 1080, 1280, 1920, 2048, 2560],
       imageSizes: [16, 32, 48, 64, 96, 128, 256],

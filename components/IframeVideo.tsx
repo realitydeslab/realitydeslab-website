@@ -1,34 +1,19 @@
-const IframeVideo = ({ videos }: { videos: string[] | undefined }) => {
-  if (!videos || !videos.length) {
-    return <></>
-  }
+import { resolveVideoUrl } from '@/libs/video-url.mjs'
 
-  return videos.map((video, idx) => {
-    return (
-      <iframe
-        allowFullScreen={true}
-        key={`video_${idx}`}
-        className="aspect-video h-auto w-full"
-        title={`iframe-video-${idx}`}
-        src={resoveVideoUrl(video)}
-      ></iframe>
-    )
-  })
+function Embed({ video, index }: { video: string; index: number }) {
+  const resolved = resolveVideoUrl(video)
+  if (!resolved) return <p>Video link unavailable.</p>
+  return (
+    <figure className="w-full min-w-0">
+      <iframe allowFullScreen
+        allow="fullscreen; picture-in-picture; encrypted-media; autoplay"
+        loading="lazy" referrerPolicy="strict-origin-when-cross-origin"
+        className="aspect-video h-auto w-full bg-black"
+        title={`${resolved.provider} project video ${index + 1}`} src={resolved.src} />
+    </figure>
+  )
 }
 
-function youtube_parser(url) {
-  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
-  const match = url.match(regExp)
-  return match && match[7].length == 11 ? `http://www.youtube.com/embed/${match[7]}` : null
+export default function IframeVideo({ videos }: { videos: string[] | undefined }) {
+  return videos?.map((video, index) => <Embed key={video} video={video} index={index} />)
 }
-
-const resoveVideoUrl = (url: string): string => {
-  if (url.indexOf('vimeo') >= 0) {
-    const videoId = url.match(/vimeo.com\/(\d+)/)
-    return videoId ? `https://player.vimeo.com/video/${videoId[1]}?api=1` : url
-  } else {
-    return youtube_parser(url) ?? url
-  }
-}
-
-export default IframeVideo

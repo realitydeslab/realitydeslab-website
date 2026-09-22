@@ -1,6 +1,6 @@
 import { Blog, allBlogs } from 'contentlayer/generated'
 import { components } from '@/components/MDXComponents'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
+import { MDXLayoutRenderer } from 'pliny/mdx-components.js'
 import { __ } from '@/libs/utils'
 import Authors from '@/components/Authors'
 import ArticleTitle from '@/components/ArticleTitle'
@@ -8,7 +8,7 @@ import Article from '@/components/Article'
 import ArticleHeader from '@/components/ArticleHeader'
 import Citation from '@/components/Citation'
 import { joinAnchors, wikilinks } from '@/components/helpers/Common'
-import NotFound from 'app/not-found'
+import { notFound } from 'next/navigation'
 import MetaGroup from '@/components/MetaGroup'
 import Cover from '@/components/Cover'
 export const generateStaticParams = async () =>
@@ -49,11 +49,11 @@ const Metadata = ({ blog }: Props) => {
   )
 }
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
-  const slug = decodeURI(params.slug.join('/'))
+export default async function Page({ params }: { params: Promise<{ slug: string[] }> }) {
+  const slug = (await params).slug.join('/')
   const blog = allBlogs.find((p) => p.slug && p.slug == slug) as Blog
 
-  if (!blog) return <NotFound />
+  if (!blog) return notFound()
 
   return (
     <Article slug={blog.slug}>

@@ -57,3 +57,11 @@ yarn-error.log*
 
 .pnp.cjs
 .pnp.loader.mjs
+# Generated verification artifacts and local configuration
+/output/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+
+/.playwright-cli/

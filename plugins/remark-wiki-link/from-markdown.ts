@@ -1,26 +1,9 @@
 import { remarkWikiLinkOptions } from '.'
 
 function wikiLinkTransclusionFormat(extension) {
-  const transclusionFormats = [
-    /\.jpe?g$/,
-    /\.a?png$/,
-    /\.webp$/,
-    /\.avif$/,
-    /\.gif$/,
-    /\.svg$/,
-    /\.bmp$/,
-    /\.ico$/,
-    /\.pdf$/,
-  ]
+  const ext = extension.split('|')[0].match(/\.([a-z0-9]+)$/i)?.[1]?.toLowerCase()
+  return [['jpg', 'jpeg', 'apng', 'png', 'webp', 'avif', 'gif', 'svg', 'bmp', 'ico', 'pdf', 'mp4', 'mov', 'webm'].includes(ext), ext]
 
-  const supportedFormat = extension.match(
-    transclusionFormats.filter((r) => extension.match(r))[0]
-  )[0]
-  const strippedExtension = extension.match(/\.[0-9a-z]{1,4}$/gi)
-
-  if (!supportedFormat) return [false, strippedExtension && strippedExtension[0].replace('.', '')]
-
-  return [true, supportedFormat.replace('.', '')]
 }
 
 function fromMarkdown(opts: remarkWikiLinkOptions) {
@@ -64,6 +47,7 @@ function fromMarkdown(opts: remarkWikiLinkOptions) {
   }
 
   function permalinkExists(link: string) {
+    if (link.startsWith('#')) return true
     return Object.values(permalinks).indexOf(link) !== -1
   }
 
@@ -74,6 +58,7 @@ function fromMarkdown(opts: remarkWikiLinkOptions) {
 
     const pagePermalinks = pageResolver(wikiLink?.value)
     let permalink = pagePermalinks.find((p) => {
+      if (p.startsWith('#')) return true
       let heading = ''
 
       if (!wikiLinkTransclusion && p.match(/#/)) {
@@ -113,7 +98,9 @@ function fromMarkdown(opts: remarkWikiLinkOptions) {
         const regex = new RegExp(`${transclusionFormat[1]}$`, 'g')
         displayName = wikiLink.value.replace(regex, '')
 
-        if (transclusionFormat[1] === 'pdf') {
+        if (['mp4', 'mov', 'webm'].includes(transclusionFormat[1])) {
+          wikiLink.data.hName = 'video'
+        } else if (transclusionFormat[1] === 'pdf') {
           wikiLink.data.hName = 'embed'
         } else {
           wikiLink.data.hName = 'img'
@@ -125,7 +112,7 @@ function fromMarkdown(opts: remarkWikiLinkOptions) {
       } else {
         displayName = wikiLink.value
       }
-      wikiLink.data.hName = 'a'
+      wikiLink.data.hName = exists || wikiLinkTransclusionFormat(wikiLink.value)[1] === 'pdf' ? 'a' : 'span'
     }
 
     if (wikiLink.data.alias && !wikiLinkTransclusion) {
@@ -148,7 +135,9 @@ function fromMarkdown(opts: remarkWikiLinkOptions) {
           style: 'color:#fef08a;',
           src: hrefTemplate(permalink),
         }
-      } else if (transclusionFormat[1] === 'pdf') {
+      } else if (['mp4', 'mov', 'webm'].includes(transclusionFormat[1])) {
+          wikiLink.data.hName = 'video'
+        } else if (transclusionFormat[1] === 'pdf') {
         wikiLink.data.hProperties = {
           className: `${classNames} x-pdf`,
           type: 'application/pdf',
@@ -164,7 +153,7 @@ function fromMarkdown(opts: remarkWikiLinkOptions) {
     } else {
       wikiLink.data.hProperties = {
         className: classNames,
-        href: hrefTemplate(permalink),
+        ...(permalink ? { href: hrefTemplate(permalink) } : {}),
       }
       wikiLink.data.hChildren = [
         {

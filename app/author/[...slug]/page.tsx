@@ -3,7 +3,7 @@ import { __ } from '@/libs/utils'
 import ArticleTitle from '@/components/ArticleTitle'
 import Article from '@/components/Article'
 import ArticleHeader from '@/components/ArticleHeader'
-import NotFound from 'app/not-found'
+import { notFound } from 'next/navigation'
 import MetaGroup from '@/components/MetaGroup'
 import { ReactNode } from 'react'
 import { wikilinks } from '@/components/helpers/Common'
@@ -103,11 +103,11 @@ const Publications = ({ name }: { name: string }) => {
   )
 }
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
-  const slug = decodeURI(params.slug.join('/'))
+export default async function Page({ params }: { params: Promise<{ slug: string[] }> }) {
+  const slug = (await params).slug.join('/')
   const author = allAuthors.find((p) => p.slug == slug) as Author
 
-  if (!author) return <NotFound />
+  if (!author) return notFound()
 
   return (
     <Article>

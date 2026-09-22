@@ -1,0 +1,517 @@
+{
+  "checkedAt": "2026-09-22T10:11:05.676Z",
+  "vault": "/Users/amber/Projects/RealityDesignLab/realitydeslab-website/vault",
+  "projects": [
+    {
+      "file": "Projects/AIMom/AIMom.md",
+      "title": "AI Mom™",
+      "slug": "aimom",
+      "published": true,
+      "legacyDraft": false,
+      "words": 329,
+      "videos": [],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 6
+    },
+    {
+      "file": "Projects/ALIFE.ar/ALIFE.ar.md",
+      "title": "ALife",
+      "slug": "alife",
+      "published": false,
+      "legacyDraft": false,
+      "words": 70,
+      "videos": [],
+      "hasDescription": false,
+      "hasCover": false,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/AR + Robotics HCI.md",
+      "title": "AR + Robotics HCI",
+      "slug": "arrobotics",
+      "published": false,
+      "legacyDraft": false,
+      "words": 70,
+      "videos": [],
+      "hasDescription": false,
+      "hasCover": false,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/Body Oracle/Body Oracle.md",
+      "title": "Body Oracle",
+      "slug": "body-oracle",
+      "published": true,
+      "legacyDraft": false,
+      "words": 537,
+      "videos": [
+        {
+          "url": "https://vimeo.com/1020163664",
+          "embed": {
+            "src": "https://player.vimeo.com/video/1020163664?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/1020163664"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 8
+    },
+    {
+      "file": "Projects/Cell Space/Cell Space.md",
+      "title": "Cell Space",
+      "slug": "cell-space",
+      "published": true,
+      "legacyDraft": false,
+      "words": 545,
+      "videos": [
+        {
+          "url": "https://vimeo.com/915076535/79af935685",
+          "embed": {
+            "src": "https://player.vimeo.com/video/915076535?h=79af935685&playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/915076535/79af935685"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": false,
+      "localImages": 2
+    },
+    {
+      "file": "Projects/City of Sparkles/City Of Sparkles.md",
+      "title": "City of Sparkles",
+      "slug": "city-of-sparkles",
+      "published": true,
+      "legacyDraft": false,
+      "words": 663,
+      "videos": [
+        {
+          "url": "https://vimeo.com/777136892?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/777136892?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/777136892?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 15
+    },
+    {
+      "file": "Projects/Composable Life/Composable Life.md",
+      "title": "Composable Life",
+      "slug": "composable-life",
+      "published": true,
+      "legacyDraft": false,
+      "words": 811,
+      "videos": [
+        {
+          "url": "https://vimeo.com/950706592",
+          "embed": {
+            "src": "https://player.vimeo.com/video/950706592?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/950706592"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 23
+    },
+    {
+      "file": "Projects/Cybroc/Cybroc.md",
+      "title": "Cybroc",
+      "slug": "cybroc",
+      "published": true,
+      "legacyDraft": false,
+      "words": 547,
+      "videos": [
+        {
+          "url": "https://vimeo.com/1099882736",
+          "embed": {
+            "src": "https://player.vimeo.com/video/1099882736?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/1099882736"
+          }
+        },
+        {
+          "url": "https://vimeo.com/1099884066",
+          "embed": {
+            "src": "https://player.vimeo.com/video/1099884066?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/1099884066"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 3
+    },
+    {
+      "file": "Projects/Digital Hardness.md",
+      "title": "Digital Hardness",
+      "slug": "digitalhardness",
+      "published": false,
+      "legacyDraft": false,
+      "words": 773,
+      "videos": [],
+      "hasDescription": false,
+      "hasCover": false,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/Drifting Whispers.md",
+      "title": "Drifting Whispers",
+      "slug": "driftingwhispers",
+      "published": false,
+      "legacyDraft": false,
+      "words": 132,
+      "videos": [],
+      "hasDescription": false,
+      "hasCover": false,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/EchoVision/EchoVision.md",
+      "title": "EchoVision",
+      "slug": "echovision",
+      "published": true,
+      "legacyDraft": false,
+      "words": 1524,
+      "videos": [
+        {
+          "url": "https://vimeo.com/955577972?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/955577972?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/955577972?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 9
+    },
+    {
+      "file": "Projects/ElephantKiss/ElephantKiss.md",
+      "title": "ElephantKiss",
+      "slug": "elephantkiss",
+      "published": false,
+      "legacyDraft": false,
+      "words": 2,
+      "videos": [
+        {
+          "url": "https://vimeo.com/801373332?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/801373332?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/801373332?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": false,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/FeltSight/FeltSight.md",
+      "title": "FeltSight",
+      "slug": "feltsight",
+      "published": true,
+      "legacyDraft": false,
+      "words": 406,
+      "videos": [],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 5
+    },
+    {
+      "file": "Projects/FungiSync/FungiSync.md",
+      "title": "FungiSync",
+      "slug": "fungisync",
+      "published": true,
+      "legacyDraft": false,
+      "words": 679,
+      "videos": [
+        {
+          "url": "https://vimeo.com/1027901359?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/1027901359?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/1027901359?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 33
+    },
+    {
+      "file": "Projects/GEND.AR/GEND.AR.md",
+      "title": "GEND.AR",
+      "slug": "gendar",
+      "published": false,
+      "legacyDraft": false,
+      "words": 597,
+      "videos": [
+        {
+          "url": "https://vimeo.com/1031011682?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/1031011682?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/1031011682?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 4
+    },
+    {
+      "file": "Projects/GravField/GravField.md",
+      "title": "GravField",
+      "slug": "gravfield",
+      "published": true,
+      "legacyDraft": false,
+      "words": 557,
+      "videos": [
+        {
+          "url": "https://vimeo.com/955522087?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/955522087?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/955522087?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 18
+    },
+    {
+      "file": "Projects/HoloCam.md",
+      "title": "HoloCam",
+      "slug": "holocam",
+      "published": false,
+      "legacyDraft": false,
+      "words": 2,
+      "videos": [],
+      "hasDescription": false,
+      "hasCover": false,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/HoloKit 1/HoloKit 1.md",
+      "title": "HoloKit 1",
+      "slug": "holokit-1",
+      "published": true,
+      "legacyDraft": false,
+      "words": 380,
+      "videos": [
+        {
+          "url": "https://vimeo.com/928989477?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/928989477?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/928989477?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": false,
+      "hasExhibitions": true,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/HoloKit X/HoloKit X.md",
+      "title": "HoloKit X",
+      "slug": "holokit-x",
+      "published": true,
+      "legacyDraft": false,
+      "words": 541,
+      "videos": [
+        {
+          "url": "https://vimeo.com/801220687?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/801220687?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/801220687?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/MOFA.ar/MOFA.ar.md",
+      "title": "MOFA",
+      "slug": "mofa",
+      "published": true,
+      "legacyDraft": false,
+      "words": 554,
+      "videos": [
+        {
+          "url": "https://vimeo.com/801373332?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/801373332?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/801373332?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 6
+    },
+    {
+      "file": "Projects/Memory Engineering/Memory Engineering.md",
+      "title": "Memory Engineering Inc",
+      "slug": "memeng",
+      "published": false,
+      "legacyDraft": false,
+      "words": 2,
+      "videos": [
+        {
+          "url": "https://vimeo.com/801373332?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/801373332?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/801373332?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": false,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/Skywand/Skywand.md",
+      "title": "Skywand",
+      "slug": "skywand",
+      "published": true,
+      "legacyDraft": false,
+      "words": 326,
+      "videos": [
+        {
+          "url": "https://vimeo.com/928987668",
+          "embed": {
+            "src": "https://player.vimeo.com/video/928987668?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/928987668"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": false,
+      "hasExhibitions": true,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/TYPED.ar/TYPED.ar.md",
+      "title": "TYPED.ar",
+      "slug": "typed-ar",
+      "published": false,
+      "legacyDraft": false,
+      "words": 6,
+      "videos": [],
+      "hasDescription": true,
+      "hasCover": false,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 0
+    },
+    {
+      "file": "Projects/TouchPort/TouchPort.md",
+      "title": "TouchPort",
+      "slug": "touchport",
+      "published": true,
+      "legacyDraft": false,
+      "words": 494,
+      "videos": [
+        {
+          "url": "https://vimeo.com/1163782895",
+          "embed": {
+            "src": "https://player.vimeo.com/video/1163782895?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/1163782895"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": true,
+      "hasExhibitions": true,
+      "localImages": 1
+    },
+    {
+      "file": "Projects/Zuzaland/Zuzaland.md",
+      "title": "Zuzaland",
+      "slug": "zuzaland",
+      "published": false,
+      "legacyDraft": false,
+      "words": 364,
+      "videos": [
+        {
+          "url": "https://vimeo.com/886056466?share=copy",
+          "embed": {
+            "src": "https://player.vimeo.com/video/886056466?playsinline=1",
+            "provider": "Vimeo",
+            "original": "https://vimeo.com/886056466?share=copy"
+          }
+        }
+      ],
+      "hasDescription": true,
+      "hasCover": true,
+      "hasPublications": false,
+      "hasExhibitions": false,
+      "localImages": 5
+    }
+  ]
+}

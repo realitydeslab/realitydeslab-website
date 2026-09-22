@@ -1,0 +1,171 @@
+{
+  "updated": "2026-09-22",
+  "scope": "All 14 currently published projects; full readable text, native image attachments, video, credits, documented exhibitions and publications. Existing properties and attachments preserved.",
+  "projects": [
+    {
+      "name": "Cybroc",
+      "id": "2755c6192b7e801eaafcdb9f48c18690",
+      "images": 3,
+      "videos": 2,
+      "bodyCharacters": 11070,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:06:10.595Z"
+    },
+    {
+      "name": "Skywand",
+      "id": "3e35c6192b7e819788cdc03663168be4",
+      "images": 4,
+      "videos": 1,
+      "bodyCharacters": 10467,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:05:56.814Z"
+    },
+    {
+      "name": "Body Oracle",
+      "id": "2755c6192b7e80bb8e68f067905eff14",
+      "images": 9,
+      "videos": 1,
+      "bodyCharacters": 21350,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:00:47.151Z"
+    },
+    {
+      "name": "FeltSight",
+      "id": "2755c6192b7e80debd3bc4366dc15142",
+      "images": 23,
+      "videos": 1,
+      "firstVideo": true,
+      "paper": true,
+      "exhibition": true,
+      "checkedAt": "2026-09-22T11:09:45.995Z"
+    },
+    {
+      "name": "MOFA",
+      "id": "2755c6192b7e80a4bed0fa1529a55446",
+      "images": 7,
+      "videos": 1,
+      "bodyCharacters": 18120,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:06:25.052Z"
+    },
+    {
+      "name": "Composable Life",
+      "id": "2755c6192b7e80048c73e490c9fd4768",
+      "images": 24,
+      "videos": 1,
+      "bodyCharacters": 49454,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:09:19.405Z"
+    },
+    {
+      "name": "HoloKit X",
+      "id": "2755c6192b7e80419a11dd295070afb8",
+      "images": 12,
+      "videos": 1,
+      "bodyCharacters": 26674,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:06:49.875Z"
+    },
+    {
+      "name": "FungiSync",
+      "id": "2755c6192b7e803b97daf2b0e977796d",
+      "images": 33,
+      "videos": 1,
+      "bodyCharacters": 63623,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:08:32.526Z"
+    },
+    {
+      "name": "Cell Space",
+      "id": "2755c6192b7e80b89161e39dbfa55fa4",
+      "images": 9,
+      "videos": 1,
+      "bodyCharacters": 21022,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:09:38.782Z"
+    },
+    {
+      "name": "City of Sparkles",
+      "id": "2755c6192b7e8085b06bf36083dd2923",
+      "images": 30,
+      "videos": 1,
+      "bodyCharacters": 56943,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:10:11.719Z"
+    },
+    {
+      "name": "GravField",
+      "id": "2755c6192b7e800591bbedbac5e731c2",
+      "images": 19,
+      "videos": 1,
+      "bodyCharacters": 39616,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:07:26.611Z"
+    },
+    {
+      "name": "AI Mom™",
+      "id": "3c55c6192b7e807aa432f00b5ef1f4e8",
+      "images": 6,
+      "videos": 1,
+      "bodyCharacters": 14324,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:00:24.740Z"
+    },
+    {
+      "name": "EchoVision",
+      "id": "2755c6192b7e80638d0ff92dae1a6e45",
+      "images": 10,
+      "videos": 1,
+      "bodyCharacters": 31257,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:00:01.027Z"
+    },
+    {
+      "name": "HoloKit 1",
+      "id": "3e35c6192b7e81d4895ecff2bc34196b",
+      "images": 3,
+      "videos": 1,
+      "bodyCharacters": 9270,
+      "headingsPresent": true,
+      "localLink": true,
+      "checkedAt": "2026-09-22T11:06:03.550Z"
+    }
+  ],
+  "touchport": "Hidden in Notion and unpublished in Obsidian; retained source materials",
+  "homepage_order": [
+    "EchoVision",
+    "AI Mom",
+    "FeltSight",
+    "MOFA",
+    "City of Sparkles",
+    "Cybroc"
+  ],
+  "ai_mom_preview": {
+    "seconds": 7.466667,
+    "shots": [
+      "sitting down",
+      "lying down",
+      "sliding iPad controls"
+    ],
+    "bytes": 809663
+  },
+  "verification": {
+    "ai_mom_existing_pdf_preserved": true,
+    "city_of_sparkles_legacy_images_preserved": 14,
+    "local_build": "passed",
+    "local_desktop_mobile_order": "passed",
+    "public_deployment": "not updated by this content sync"
+  }
+}

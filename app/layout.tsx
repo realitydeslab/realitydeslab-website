@@ -1,8 +1,8 @@
-import 'css/tailwind.scss'
+import '@/css/tailwind.css'
 
 import NeueMontreal from '@/resources/fonts/neue-montreal'
 
-// import { Analytics, AnalyticsConfig } from 'pliny/analytics'
+// import { Analytics, AnalyticsConfig } from 'pliny/analytics.js'
 import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { Metadata } from 'next'

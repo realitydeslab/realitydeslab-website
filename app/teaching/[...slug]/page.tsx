@@ -1,13 +1,13 @@
 import { Course, allCourses } from 'contentlayer/generated'
 import { components } from '@/components/MDXComponents'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
+import { MDXLayoutRenderer } from 'pliny/mdx-components.js'
 import { __ } from '@/libs/utils'
 import Authors from '@/components/Authors'
 import ArticleTitle from '@/components/ArticleTitle'
 import Article from '@/components/Article'
 import ArticleHeader from '@/components/ArticleHeader'
 import ArticleMeta from '@/components/ArticleMeta'
-import NotFound from 'app/not-found'
+import { notFound } from 'next/navigation'
 import Cover from '@/components/Cover'
 
 export const generateStaticParams = async () => allCourses.map((p) => ({ slug: p.slug.split('/') }))
@@ -29,8 +29,8 @@ const CourseRepo = ({ course }: Props) => {
   )
 }
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
-  const slug = decodeURI(params.slug.join('/'))
+export default async function Page({ params }: { params: Promise<{ slug: string[] }> }) {
+  const slug = (await params).slug.join('/')
 
   const course = allCourses.find((p) => p.slug == slug) as Course
 
@@ -49,6 +49,6 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
       </section>
     </Article>
   ) : (
-    <NotFound />
+    notFound()
   )
 }

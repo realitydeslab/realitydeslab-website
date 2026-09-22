@@ -42,10 +42,8 @@ const Links = ({
 }
 
 const wikilink = (link: string, compact: boolean = false) => {
-  const RenderLink = (href: string, title: string) => {
-    return <span key={title}>{title}</span> //暂时先不返回链接
-
-    return href !== '/' ? (
+  const RenderLink = (href: string | null, title: string) => {
+    return href ? (
       <a key={title} href={href}>
         {title}
       </a>
@@ -54,8 +52,8 @@ const wikilink = (link: string, compact: boolean = false) => {
     )
   }
 
-  const RenderLine = (href: string, title: string) => {
-    const a = href !== '/' && (
+  const RenderLine = (href: string | null, title: string) => {
+    const a = href && (
       <a className="x-link-arrow ml-1 inline-block" href={href}>
         [→]
       </a>
@@ -69,7 +67,7 @@ const wikilink = (link: string, compact: boolean = false) => {
   }
 
   const title = __(link) ?? ''
-  const href = title ? rewritePermalink(title) : '/'
+  const href = rewritePermalink(link)
   return compact ? RenderLink(href, title) : RenderLine(href, title)
 }
 

@@ -26,7 +26,7 @@ const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
   url: {
     type: 'string',
-    resolve: (doc) => `/${resolveSlug(_.toLower(doc.type))}/${doc.slug}`,
+    resolve: (doc) => `${doc.type === 'Page' ? '' : '/' + resolveSlug(_.toLower(doc.type))}/${doc.slug}`,
   },
   path: {
     type: 'string',

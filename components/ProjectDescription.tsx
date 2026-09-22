@@ -13,15 +13,14 @@ type ProjectDesc = {
 
 export default function ProjectDescription() {
   const pathname = usePathname()
-  const [desc, setDesc] = useState<ProjectDesc | null>(null)
+  const [selection, setSelection] = useState<{path: string, detail: ProjectDesc | null} | null>(null)
+  const desc = selection?.path === pathname ? selection.detail : null
   const showYearRange = (year_range: string) => {
     return year_range && year_range !== ' - '
   }
   useEffect(() => {
-    setDesc(null)
-
     const handleShowDescription = (e: CustomEvent) => {
-      setDesc(e.detail)
+      setSelection({path: pathname, detail: e.detail})
     }
     window.addEventListener(EVENT_PROJECT_SHOW_DESC, handleShowDescription)
     return () => window.removeEventListener(EVENT_PROJECT_SHOW_DESC, handleShowDescription)

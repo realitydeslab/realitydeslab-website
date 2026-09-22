@@ -1,5 +1,5 @@
 import { Code } from 'contentlayer/generated'
-import { CoreContent } from 'pliny/utils/contentlayer'
+import { CoreContent } from 'pliny/utils/contentlayer.js'
 import Authors from '@/components/Authors'
 import Link from 'next/link'
 import { EntryWrap } from '@/components/helpers/Common'

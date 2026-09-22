@@ -1,4 +1,4 @@
-import entryData from '../../.cache/entries.json' assert { type: 'json' }
+import entryData from '../../.cache/entries.json'
 import { __ } from '@/libs/utils'
 import _ from 'lodash'
 
@@ -18,7 +18,6 @@ const entryRecognitions = (entries: string[]) => {
 const authorPublications = (name: string) => {
   const entries = _.pickBy(
     entryData,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (entry: any) => entry.authors && entry.authors.some((n: any) => __(n) == name)
   )
 

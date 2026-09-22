@@ -6,36 +6,24 @@ import Menu from './Menu'
 import { usePathname } from 'next/navigation'
 
 const MobileNav = () => {
-  const [navShow, setNavShow] = useState(false)
+  const [openPath, setOpenPath] = useState<string | null>(null)
   const pathname = usePathname()
+  const navShow = openPath === pathname
 
-  const onToggleNav = () => {
-    setNavShow((status) => {
-      const divMain = document.querySelector('main')
-      if (status) {
-        divMain && (divMain.style.overflow = 'auto')
-      } else {
-        // Prevent scrolling
-        divMain && (divMain.style.overflow = 'hidden')
-      }
-      return !status
-    })
-  }
-
+  const onToggleNav = () => setOpenPath(navShow ? null : pathname)
   useEffect(() => {
-    setNavShow(false)
-    const divMain = document.querySelector('main')
-    if (divMain) {
-      divMain.style.overflow = 'auto'
-      divMain.scrollTop = 0
-    }
-  }, [pathname])
+    const main = document.querySelector('main')
+    if (!main) return
+    main.style.overflow = navShow ? 'hidden' : 'auto'
+    return () => { main.style.overflow = 'auto' }
+  }, [navShow])
+  useEffect(() => { document.querySelector('main')?.scrollTo(0, 0) }, [pathname])
 
   return (
     <nav className="relative z-10  grid h-full p-5 lg:hidden">
       <div className="items-top flex justify-between">
         <Brand />
-        <button aria-label="Toggle Menu" onClick={onToggleNav} className="grid h-8 w-8 pt-1">
+        <button aria-label="Toggle Menu" aria-expanded={navShow} aria-controls="mobile-menu" onClick={onToggleNav} className="grid h-11 w-11 pt-1">
           <svg
             className={`place-self-center ${navShow ? 'hidden' : 'block'}`}
             width="24"
@@ -75,7 +63,7 @@ const MobileNav = () => {
           </svg>
         </button>
       </div>
-      <div
+      <div id="mobile-menu" inert={!navShow}
         className={`fixed inset-0 z-[-1] bg-white pt-[5.625rem] ${
           navShow ? 'translate-x-0' : 'translate-x-full'
         }`}

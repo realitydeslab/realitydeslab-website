@@ -1,6 +1,7 @@
-import TOCInline from 'pliny/ui/TOCInline'
-import Pre from 'pliny/ui/Pre'
-import BlogNewsletterForm from 'pliny/ui/BlogNewsletterForm'
+import Video from './Video'
+import PdfDocument from './PdfDocument'
+import Pre from 'pliny/ui/Pre.js'
+import BlogNewsletterForm from 'pliny/ui/BlogNewsletterForm.js'
 import type { MDXComponents } from 'mdx/types'
 import Image from './Image'
 import CustomLink from './Link'
@@ -13,6 +14,9 @@ import Hide from './mdx/Hide'
 
 export const components: MDXComponents = {
   Image,
+  Video,
+  video: Video,
+  embed: PdfDocument,
   // TOCInline,
   a: CustomLink,
   pre: Pre,

@@ -1,57 +1,31 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-interface Props {
+import { useEffect, useRef, useState, type VideoHTMLAttributes } from 'react'
+
+type Props = VideoHTMLAttributes<HTMLVideoElement> & {
   src: string
+  title?: string
   pauseWhenSlideChange?: boolean
 }
 
-const Video = ({ src, pauseWhenSlideChange }: Props) => {
-  const [videoPlay, setVideoPlay] = useState(false)
-  const vidRef = useRef<HTMLVideoElement>(null)
+export default function Video({ src, title = 'Project video', pauseWhenSlideChange, ...props }: Props) {
+  const ref = useRef<HTMLVideoElement>(null)
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
-    if (pauseWhenSlideChange) {
-      const handleSlideChnage = () => {
-        vidRef.current?.pause()
-      }
-      window.addEventListener('slideshow.change', handleSlideChnage)
-      return () => window.removeEventListener('slideshow.change', handleSlideChnage)
-    }
-  })
-
-  const togglePlay = () => {
-    const { current } = vidRef
-    const playing = !current?.paused
-    setVideoPlay(!playing)
-    vidRef.current?.toggleAttribute('controls', !playing)
-    vidRef.current && (playing ? vidRef.current.pause() : vidRef.current.play())
-  }
+    if (!pauseWhenSlideChange) return
+    const pause = () => ref.current?.pause()
+    window.addEventListener('slideshow.change', pause)
+    return () => window.removeEventListener('slideshow.change', pause)
+  }, [pauseWhenSlideChange])
 
   return (
-    <div className="relative">
-      <button
-        className="group absolute inset-[30%] z-10 flex cursor-pointer items-center  justify-center transition-all duration-150"
-        onClick={togglePlay}
-      >
-        <svg
-          className={
-            videoPlay ? 'opacity-0 group-hover:opacity-100' : ' opacity-80 group-hover:opacity-100'
-          }
-          width="29"
-          height="45"
-          viewBox="0 0 29 45"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M0 44.7832V0.783203L29 22.7832L0 44.7832Z" fill="white" />
-        </svg>
-      </button>
-      <video ref={vidRef} src={src}>
-        <track kind="captions" srcLang="en" label="english_captions" />
-      </video>
-    </div>
+    <figure className="x-video min-w-0">
+      <video {...props} ref={ref} src={src} aria-label={title} controls playsInline preload="metadata"
+        className="aspect-video w-full bg-black object-contain"
+        onError={() => setMessage('This video could not load.')}
+      />
+      {message && <p role="status" className="text-14">{message}</p>}
+    </figure>
   )
 }
-
-export default Video

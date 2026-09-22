@@ -1,33 +1,31 @@
 import fs from 'fs-extra'
 import { glob } from 'glob'
 import matter from 'gray-matter'
-import { vault_root as root, cache_root, fileIsPublished } from './utils.mjs'
-import path from 'path'
-import chalk from 'chalk'
-import _ from 'lodash'
+import path from 'node:path'
+import { cache_root } from './utils.mjs'
 
 export const handlePermalinks = async () => {
-  console.log('handle permalinks..')
-  let permalinks = {}
-
-  const search = '/**/*.md',
-    ignore = ['/_*/**', '/**/_*']
-
-  const files = await glob(search, { ignore, root })
-  let total = 0
-  files.forEach((file) => {
-    const content = fs.readFileSync(file, 'utf-8')
-    const front = matter(content)
-
-    if (fileIsPublished(front.data)) {
-      const filename = path.parse(file).name,
-        { slug, type } = front.data
-      permalinks[filename] = `/${_.toLower(type)}/${slug}`
-      console.log(chalk.bgGreen(`[${type}]`), ` ${filename} -> ${permalinks[filename]}`)
-      total++
-    }
-  })
-
-  fs.outputFileSync(`${cache_root}/permalinks.json`, JSON.stringify(permalinks))
-  console.log(`${cache_root}/permalinks.json created. total:${total}`)
+  const root = path.resolve('.cache/published-content')
+  const files = await glob('**/*.md', { cwd: root })
+  const destinations = new Map()
+  const add = (key, url) => {
+    if (!key) return
+    const values = destinations.get(key) ?? new Set()
+    values.add(url)
+    destinations.set(key, values)
+  }
+  for (const file of files.sort()) {
+    const { data } = matter(await fs.readFile(path.join(root, file), 'utf8'))
+    if (!data.slug || !data.type) continue
+    const prefix = { Page: '', Blog: 'writing', Course: 'teaching' }[data.type] ?? data.type.toLowerCase()
+    const url = `${prefix ? '/' + prefix : ''}/${data.slug}`
+    add(file.replace(/\.md$/, ''), url)
+    add(path.parse(file).name, url)
+    add(data.title, url)
+    for (const alias of data.aliases ?? []) add(alias, url)
+  }
+  const links = Object.fromEntries([...destinations].filter(([, values]) => values.size === 1)
+    .map(([key, values]) => [key, [...values][0]]))
+  await fs.outputJson(`${cache_root}/permalinks.json`, links)
+  console.log(`Indexed ${files.length} published documents; ambiguous short names require qualified paths`)
 }

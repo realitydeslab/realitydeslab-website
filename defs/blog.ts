@@ -30,7 +30,7 @@ export const Blog = defineDocumentType(() => ({
     // layout: { type: 'string' },
     bibliography: { type: 'string' },
     // canonicalUrl: { type: 'string' },
-    // order: { type: 'number', default: 0 },
+    order: { type: 'number', default: 0 },
     csl: { type: 'string' },
     year: { type: 'string' },
     yearStart: { type: 'number' },

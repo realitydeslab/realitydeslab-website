@@ -1,6 +1,7 @@
 import { syntax } from './syntax'
 import { toMarkdown } from 'mdast-util-wiki-link'
 import { fromMarkdown, wikiLinkTransclusionFormat } from './from-markdown'
+import { wikiTarget } from '../../libs/wiki-target.mjs'
 
 export type remarkWikiLinkOptions = {
   aliasDivider: string
@@ -17,25 +18,7 @@ function remarkWikiLink(this: any, opts: remarkWikiLinkOptions) {
 
   function defaultPageResolver(name: string) {
     const image = wikiLinkTransclusionFormat(name)[1]
-
-    let heading = ''
-
-    if (!image && !name.startsWith('#') && name.match(/#/)) {
-      ;[, heading] = name.split('#')
-      name = name.replace(`#${heading}`, '')
-    } else if (name.startsWith('#')) {
-      name = name.toLowerCase()
-    }
-
-    if (permalinks) {
-      const url = permalinks[name] ?? permalinks[name] ?? null
-
-      if (url) {
-        if (heading) return [`${url}#${heading.toLowerCase()}`.replace(/ /g, '-')]
-        return [url]
-      }
-    }
-    return image ? [name] : [name.replace(/ /g, '-')]
+    return image ? [name] : [wikiTarget(name, permalinks) ?? '']
   }
 
   function add(field: any, value: any) {

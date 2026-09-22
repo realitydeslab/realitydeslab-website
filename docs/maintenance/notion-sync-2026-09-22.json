@@ -1,0 +1,125 @@
+{
+  "date": "2026-09-22",
+  "destination": "Design portfolio",
+  "records": [
+    {
+      "name": "EchoVision",
+      "id": "2755c6192b7e80638d0ff92dae1a6e45",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 0,
+      "imagesAfter": 0,
+      "bodyCharacters": 453
+    },
+    {
+      "name": "Composable Life",
+      "id": "2755c6192b7e80048c73e490c9fd4768",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 0,
+      "imagesAfter": 0,
+      "bodyCharacters": 435
+    },
+    {
+      "name": "GravField",
+      "id": "2755c6192b7e800591bbedbac5e731c2",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 0,
+      "imagesAfter": 0,
+      "bodyCharacters": 427
+    },
+    {
+      "name": "Cybroc",
+      "id": "2755c6192b7e801eaafcdb9f48c18690",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 0,
+      "imagesAfter": 0,
+      "bodyCharacters": 494
+    },
+    {
+      "name": "FungiSync",
+      "id": "2755c6192b7e803b97daf2b0e977796d",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 0,
+      "imagesAfter": 0,
+      "bodyCharacters": 419
+    },
+    {
+      "name": "HoloKit X",
+      "id": "2755c6192b7e80419a11dd295070afb8",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 0,
+      "imagesAfter": 0,
+      "bodyCharacters": 381
+    },
+    {
+      "name": "City of Sparkles",
+      "id": "2755c6192b7e8085b06bf36083dd2923",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 14,
+      "imagesAfter": 14,
+      "bodyCharacters": 23915
+    },
+    {
+      "name": "MOFA",
+      "id": "2755c6192b7e80a4bed0fa1529a55446",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 0,
+      "imagesAfter": 0,
+      "bodyCharacters": 366
+    },
+    {
+      "name": "Cell Space",
+      "id": "2755c6192b7e80b89161e39dbfa55fa4",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 0,
+      "imagesAfter": 0,
+      "bodyCharacters": 443
+    },
+    {
+      "name": "Body Oracle",
+      "id": "2755c6192b7e80bb8e68f067905eff14",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 0,
+      "imagesAfter": 0,
+      "bodyCharacters": 394
+    },
+    {
+      "name": "Allow Me into Your Dream",
+      "id": "3495c6192b7e8076ab4fd7c197a175f9",
+      "linkPresent": true,
+      "introPresent": true,
+      "imagesBefore": 0,
+      "imagesAfter": 0,
+      "bodyCharacters": 414
+    },
+    {
+      "name": "HoloKit 1",
+      "id": "3e35c6192b7e81d4895ecff2bc34196b",
+      "linkPresent": true,
+      "introPresent": true,
+      "created": true
+    },
+    {
+      "name": "Skywand",
+      "id": "3e35c6192b7e819788cdc03663168be4",
+      "linkPresent": true,
+      "introPresent": true,
+      "created": true
+    }
+  ],
+  "previouslyUpdated": [
+    "AI Mom",
+    "FeltSight"
+  ],
+  "personalWebsiteReflection": "Partially verified: HoloKit 1, Skywand, and Cybroc contain the new lab links. Other pages remain cached. Correct personal slugs: HoloKit X=holokit, TouchPort=touchport. Super dashboard is signed out; forced refresh unavailable.",
+  "remainingPublishedProjects": []
+}

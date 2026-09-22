@@ -10,7 +10,7 @@ interface Props {
 export default function Article({ slug, children, className = '', layout = 'content' }: Props) {
   return (
     <article
-      className={`flex flex-1 flex-col gap-6 lg:gap-[3.75rem] x-article-${
+      className={`flex min-w-0 flex-1 flex-col gap-6 lg:gap-[3.75rem] x-article-${
         slug ?? 'default'
       } ${className} ${layout == 'wide' ? 'max-w-wide' : 'max-w-content'}`}
     >

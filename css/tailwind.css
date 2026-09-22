@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
+@source "../node_modules/pliny";
 
 @import 'katex/dist/katex.min.css';
 
@@ -127,7 +127,7 @@ input:-webkit-autofill:focus {
   }
 
   a {
-    @apply x-link;
+    @apply border-b border-dotted text-primary-700 hover:border-accent-500 hover:text-accent-500;
   }
   pre {
     @apply max-w-content overflow-auto bg-primary-300 p-3 text-md leading-normal text-primary-700 lg:p-6;
@@ -172,7 +172,7 @@ input:-webkit-autofill:focus {
 
 .x-authors {
   a {
-    @apply x-link;
+    @apply border-b border-dotted text-primary-700 hover:border-accent-500 hover:text-accent-500;
   }
 }
 
@@ -186,9 +186,9 @@ input:-webkit-autofill:focus {
   --swiper-navigation-size: 1.25rem;
   width: 100%;
   max-width: 100%;
-  // CSS Grid/Flexbox bug size workaround
-  // @see https://github.com/kenwheeler/slick/issues/982
-  // @see https://github.com/nolimits4web/swiper/issues/3599
+
+
+
   min-height: 0;
   min-width: 0;
   .swiper {
@@ -294,18 +294,6 @@ input:-webkit-autofill:focus {
   animation: fade-right 0.8s cubic-bezier(0.4, 0.4, 0, 1);
 }
 
-.x-brand {
-  animation: fade-down 0.8s cubic-bezier(0.4, 0.4, 0, 1) both;
-}
-
-.x-menu {
-  animation: fade-left 0.8s cubic-bezier(0.4, 0.4, 0, 1) 0.3s both;
-}
-
-.x-main {
-  animation: fade-right 0.8s cubic-bezier(0.4, 0.4, 0, 1) 0.6s both;
-}
-
 .h-screen {
   height: 100dvh;
 }
@@ -314,4 +302,9 @@ input:-webkit-autofill:focus {
   video {
     @apply h-full;
   }
+}
+
+.x-video video:fullscreen { width: 100%; height: 100%; object-fit: contain; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
 }

@@ -1,6 +1,7 @@
+import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { components } from '@/components/MDXComponents'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
+import { MDXLayoutRenderer } from 'pliny/mdx-components.js'
 import { __ } from '@/libs/utils'
 import { allPages, Page as BasePage } from 'contentlayer/generated'
 import ArticleTitle from '@/components/ArticleTitle'
@@ -9,9 +10,10 @@ import ArticleHeader from '@/components/ArticleHeader'
 
 export const generateStaticParams = async () => allPages.map((p) => ({ slug: p.slug }))
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const { slug } = params
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const page = allPages.find((p) => p.slug == slug) as BasePage
+  if (!page) return notFound()
   return (
     <Article slug={page?.slug}>
       <ArticleHeader>

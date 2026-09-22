@@ -5,6 +5,7 @@ import { Node } from 'unist'
 import { visit } from 'unist-util-visit'
 import chalk from 'chalk'
 import { resolveMedia } from '../../libs/permalink-resolver'
+import { liftMediaBlocks } from '../../libs/lift-media-blocks.mjs'
 
 type WikiLink = {
   isType?: string
@@ -75,7 +76,12 @@ function remarkParseMedia(opts: remarkParseImageOptions = { useJSX: false }) {
         let permalink = resolveMedia(node?.data?.permalink)
         node.data.permalink = permalink
 
-        if (opts.useJSX && node.data.hName == 'img') {
+        if (node.data.hName === 'video') {
+          node.type = 'mdxJsxFlowElement'
+          node.name = 'Video'
+          node.attributes = [{ type: 'mdxJsxAttribute', name: 'src', value: permalink }]
+          node.data = undefined as any
+        } else if (opts.useJSX && node.data.hName == 'img') {
           composeNextImage(node)
         } else {
           node.data.hProperties.src = permalink
@@ -87,6 +93,7 @@ function remarkParseMedia(opts: remarkParseImageOptions = { useJSX: false }) {
         node.data.hProperties.href = permalink
       }
     })
+    liftMediaBlocks(tree)
   }
 }
 

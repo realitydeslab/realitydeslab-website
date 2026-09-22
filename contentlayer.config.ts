@@ -39,7 +39,7 @@ export default makeSource({
   contentDirInclude: ['Projects', 'Webpages', 'Codes', 'Blogs', 'Courses'],
   documentTypes: [Code, Project, Page, Blog, Course, Author],
   disableImportAliasWarning: true,
-  contentDirPath: vault_root,
+  contentDirPath: '.cache/published-content',
   contentDirExclude: ['.obsidian'],
   mdx: {
     cwd: process.cwd(),

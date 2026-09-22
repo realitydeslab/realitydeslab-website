@@ -1,6 +1,6 @@
 import { Project, allProjects } from 'contentlayer/generated'
 import { components } from '@/components/MDXComponents'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
+import { MDXLayoutRenderer } from 'pliny/mdx-components.js'
 import { __ } from '@/libs/utils'
 import Authors from '@/components/Authors'
 import ArticleTitle from '@/components/ArticleTitle'
@@ -10,7 +10,7 @@ import ArticleMeta from '@/components/ArticleMeta'
 import IframeVideo from '@/components/IframeVideo'
 import Citation from '@/components/Citation'
 import { joinAnchors, wikilink, wikilinks } from '@/components/helpers/Common'
-import NotFound from 'app/not-found'
+import { notFound } from 'next/navigation'
 import MetaGroup from '@/components/MetaGroup'
 import { Links } from '@/components/helpers/Common'
 import { entryRecognitions } from '@/components/helpers/Entry'
@@ -122,11 +122,11 @@ const Preview = ({ project }: { project: Project }) => {
   )
 }
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
-  const slug = decodeURI(params.slug.join('/'))
+export default async function Page({ params }: { params: Promise<{ slug: string[] }> }) {
+  const slug = (await params).slug.join('/')
   const project = allProjects.find((p) => p.slug == slug) as Project
 
-  if (!project) return <NotFound />
+  if (!project) return notFound()
 
   return (
     <Article>

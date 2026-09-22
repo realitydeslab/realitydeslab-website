@@ -2,31 +2,51 @@
   "compilerOptions": {
     "incremental": true,
     "target": "ES6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "composite": true,
     "sourceMap": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "baseUrl": ".",
+    "jsx": "react-jsx",
     "paths": {
-      "@/*": ["./*"],
-      "@/libs/*": ["libs/*"],
-      "@/plugins/*": ["plugins/*"],
-      "@/resources/*": ["resources/*"],
-      "@/components/*": ["components/*"],
-      "@/data/*": ["data/*"],
-      "@/layouts/*": ["layouts/*"],
-      "@/css/*": ["css/*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
+      "@/*": [
+        "./*"
+      ],
+      "@/libs/*": [
+        "./libs/*"
+      ],
+      "@/plugins/*": [
+        "./plugins/*"
+      ],
+      "@/resources/*": [
+        "./resources/*"
+      ],
+      "@/components/*": [
+        "./components/*"
+      ],
+      "@/data/*": [
+        "./data/*"
+      ],
+      "@/layouts/*": [
+        "./layouts/*"
+      ],
+      "@/css/*": [
+        "./css/*"
+      ],
+      "contentlayer/generated": [
+        "./.contentlayer/generated"
+      ]
     },
     "plugins": [
       {
@@ -37,16 +57,22 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.js",
-    "**/*.mjs",
-    "**/*.ts",
-    "**/**/*.ts",
-    "**/*.tsx",
-    "**/*.json",
-    ".contentlayer/generated",
-    ".contentlayer/generated/**/*.json",
-    ".cache/*.json",
-    ".next/types/**/*.ts"
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "components/**/*.tsx",
+    "defs/**/*.ts",
+    "libs/**/*.ts",
+    "plugins/**/*.ts",
+    "data/**/*.ts",
+    "resources/**/*.ts",
+    ".contentlayer/generated/**/*.ts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    ".cache",
+    "vault",
+    "output"
+  ]
 }

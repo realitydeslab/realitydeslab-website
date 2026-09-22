@@ -1,5 +1,5 @@
 export const fileIsPublished = (data) => {
-  return (data && data.draft !== undefined && data.draft !== false) || data.published
+  return data?.published === true
 }
 
 export const vault_root = process.env.VAULT_ROOT ?? 'vault'

@@ -2,8 +2,9 @@ import fs from 'fs-extra'
 import { dirname } from 'path'
 import chalk from 'chalk'
 import path from 'path'
-import permalinks from '../.cache/permalinks.json' assert { type: 'json' }
-import medias from '../.cache/medias.json' assert { type: 'json' }
+import permalinks from '../.cache/permalinks.json'
+import medias from '../.cache/medias.json'
+import { wikiTarget } from './wiki-target.mjs'
 
 const supportedFileFormats = ['zip', 'bib', 'csl', 'pdf']
 
@@ -50,7 +51,7 @@ function resolvePermalink(wikilink: string): PermalinkResult {
   const { filepath, label } = resolveWikilink(wikilink)
 
   if (filepath == '') {
-    return { type: 'link', uri: '/' }
+    return { type: 'link', uri: null }
   }
 
   if (isMedia(filepath)) {
@@ -65,8 +66,12 @@ function resolvePermalink(wikilink: string): PermalinkResult {
 }
 
 function searchMedia(filename: string, root: string): string | null {
-  const found = medias.filter((media) => media.indexOf(filename) >= 0).sort((n) => n.length)
-  return found.length ? found[0] : null
+  const normalized = filename.replaceAll('\\', '/').replace(/^\/+/, '')
+  if (normalized.split('/').includes('..')) throw new Error(`Unsafe media path: ${filename}`)
+  const exact = medias.filter((media) => media.endsWith('/' + normalized))
+  if (exact.length === 1) return exact[0]
+  if (exact.length > 1) throw new Error(`Ambiguous media reference: ${filename}`)
+  return null
 }
 
 const resolveMedia = (filename: string): string => {
@@ -78,14 +83,14 @@ const resolveMedia = (filename: string): string => {
   const vault_root = `${process.cwd()}/${process.env.VAULT_ROOT || 'vault'}`
   const source = searchMedia(filename, vault_root)
 
-  if (fs.existsSync(source)) {
+  if (source && fs.existsSync(source)) {
     const public_path = `${process.cwd()}/public`
     const publish_root = `${process.env.PUBLISH_ROOT || 'publish'}`
     const ext = path.extname(filename).replace('.', '')
     const permalink = `/${publish_root}/${filename}`
     const target = `${public_path}/${permalink}`
 
-    if (fs.existsSync(target)) {
+    if (fs.existsSync(target) && fs.statSync(target).size === fs.statSync(source).size && fs.statSync(target).mtimeMs >= fs.statSync(source).mtimeMs) {
       console.log(chalk.gray(`[target file exist.] ${permalink}`))
     } else {
       console.log(chalk.bgGreen(`[copy file] ${permalink}`))
@@ -101,15 +106,11 @@ const resolveMedia = (filename: string): string => {
     return permalink
   } else {
     console.log(chalk.bgRed(`[source file not found.] ${source}`))
-    return process.env.PLACEHOLDER_IMAGE || '/placeholder.webp'
+    throw new Error(`Referenced media was not found: ${filename}`)
   }
 }
 
-const rewritePermalink = (permalink: string): string => {
-  const found = permalinks[permalink] ?? '/'
-  console.log(chalk.bgGreen('[rewrite permalink]'), chalk.green(`${permalink} -> ${found}`))
-  return found
-}
+const rewritePermalink = (permalink: string): string | null => wikiTarget(permalink, permalinks)
 
 function getLinkContent(token: string): string {
   const wikiLinkPattern = /\[\[(.+)\]\]/
