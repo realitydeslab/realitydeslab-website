@@ -35,7 +35,7 @@ export const Course = CourseDef
 import { vault_root } from './defs/common'
 
 export default makeSource({
-  // contentDirInclude: ['Projects', 'Blogs', 'Meta', 'Webpages', 'Codes'],//隐藏部分内容，暂不全量发布
+  // contentDirInclude: ['Projects', 'Blogs', 'Meta', 'Webpages', 'Codes'], // Some content remains unpublished.
   contentDirInclude: ['Projects', 'Webpages', 'Codes', 'Blogs', 'Courses'],
   documentTypes: [Code, Project, Page, Blog, Course, Author],
   disableImportAliasWarning: true,

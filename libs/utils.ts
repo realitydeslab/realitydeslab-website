@@ -5,7 +5,7 @@ function coreContent(content) {
 }
 
 function __(wikilink: string): string | undefined {
-  return wikilink.replaceAll('[[', '').replaceAll(']]', '').split('|').pop() //TODO:临时处理 "page|alias"链接
+  return wikilink.replaceAll('[[', '').replaceAll(']]', '').split('|').pop() // TODO: Handle "page|alias" links more robustly.
 }
 
 function collect(doc, keys) {
