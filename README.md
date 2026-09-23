@@ -27,6 +27,8 @@ npm start
 
 先确认 Vercel 关联的项目，再执行 `sh deploy.sh` 生成预览。验证实际预览地址后，用 `sh promote.sh <verified-preview-url>` 将该预览提升为生产版本。不要猜测“最近一次”的部署地址。
 
+Vault 仓库的 `.github/workflows/deploy.yml` 是自动上线入口：推送 vault 的 `main` 或手动运行 workflow，会构建暂不接管域名的生产部署，检查路由与媒体后才提升到 `reality.design`。GitHub Actions 需要 `VERCEL_ORG_ID`、`VERCEL_PROJECT_ID`、`VERCEL_TOKEN` 和 `VERCEL_AUTOMATION_BYPASS_SECRET` 四项 repository secret；最后一项只用于访问受 Vercel Authentication 保护的预部署，不能放进仓库或聊天记录。
+
 ## 内容与维护
 
 - Obsidian 保存项目全文、出版物、展览和照片原件；Notion 同时保存完整可读的项目图文、展览选项、论文信息及实验室链接。

@@ -10,6 +10,16 @@ const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET
 const headers = bypass ? { 'x-vercel-protection-bypass': bypass } : {}
 const get = (path) => fetch(base + path, { headers, redirect: 'follow' })
 
+const entry = await fetch(base + '/', { headers, redirect: 'manual' })
+if (entry.status >= 300 && entry.status < 400) {
+  const destination = entry.headers.get('location') ?? '(no location)'
+  const reason = destination.startsWith('https://vercel.com/sso-api')
+    ? 'Vercel Authentication blocked the deployment; set VERCEL_AUTOMATION_BYPASS_SECRET.'
+    : `Homepage redirected instead of serving the site (${entry.status}).`
+  console.error(`Deployment check cannot reach the site: ${reason}`)
+  process.exit(1)
+}
+
 const expectations = [
   ['/', 200],
   ['/project/feltsight', 200],

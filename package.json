@@ -8,7 +8,7 @@
     "predev": "npm run content",
     "dev": "next dev --webpack",
     "prebuild": "npm run content",
-    "build": "next build --webpack",
+    "build": "next build --webpack && node scripts/check-build-traces.mjs",
     "serve": "next start",
     "analyze": "ANALYZE=true npm run build",
     "lint": "eslint app components defs libs plugins scripts",
