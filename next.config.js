@@ -66,6 +66,11 @@ module.exports = () => {
   return plugins.reduce((acc, next) => next(acc), {
     reactStrictMode: true,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+    // Vercel serves public media as static assets. Keep it out of every
+    // server function trace, which otherwise exceeds the function size limit.
+    outputFileTracingExcludes: {
+      '/*': ['./public/media/**/*'],
+    },
     images: {
       // AVIF first, WebP for anything that cannot take it. Next picks per the
       // request's Accept header, so older browsers still get WebP.
