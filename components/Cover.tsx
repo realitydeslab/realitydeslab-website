@@ -13,11 +13,11 @@ const Cover = ({ cover, alt, className = '', eager = false }: CoverProps) => {
     cover.type == 'img' && (
       <Image
         className={className}
-        width={0}
+        width={1600}
         placeholder="empty"
         loading={eager ? 'eager' : 'lazy'}
         sizes="(max-width:768px) 100vw,(max-width:1200px) 70vw,66vw"
-        height={0}
+        height={900}
         style={{ width: '100%', height: 'auto' }}
         alt={alt}
         src={cover.uri ?? ''}

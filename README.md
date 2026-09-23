@@ -21,13 +21,17 @@ npm run build
 npm start
 ```
 
-Run `npm run content` after editing the vault; the website does not watch it directly. `published: true` controls publication, while the legacy `draft` field does not. On the homepage, pointer hover starts a silent preview and clicking the cover opens the project. On touch devices, tapping the cover opens the project.
+Run `npm run content` after editing the vault; the website does not watch it directly. `published: true` controls publication, while the legacy `draft` field does not. On the homepage, pointer hover starts a silent preview and clicking the cover opens the project. Touch-down starts a preview; releasing a held touch stops it without navigation, while a short tap opens the project.
+
+The homepage warms at most two visible previews on fine pointers and one on touch devices. WebKit skips warming because its metadata request can download an entire H.264 file. Data Saver and reduced-motion preferences also disable warming. Browsers may download several seconds of video for `preload="metadata"`, so remeasure first-screen and full-scroll traffic before increasing these limits.
+
+The published-asset audit rejects missing media, Git LFS pointers, and cover MP4s whose playback metadata follows the video data. Remux an affected MP4 with `ffmpeg -i input.mp4 -c copy -movflags +faststart output.mp4`; this preserves the encoded video while allowing playback to start without fetching the whole file.
 
 ## Deployment
 
 Confirm the linked Vercel project, then run `sh deploy.sh` to create a preview. Verify its exact URL before running `sh promote.sh <verified-preview-url>`. Do not guess which deployment is the latest.
 
-The vault repository's `.github/workflows/deploy.yml` is the automated production path. A push to the vault's `main` branch, or a manual workflow run, creates a staged production deployment. The workflow checks routes and media before promoting it to `reality.design`. GitHub Actions needs `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, and `VERCEL_TOKEN` repository secrets. The staged check uses Vercel CLI authentication; `VERCEL_AUTOMATION_BYPASS_SECRET` is optional. Never put a token in the repository or a chat message.
+The vault repository's `.github/workflows/deploy.yml` is the automated production path. A push to the vault's `main` branch, or a manual workflow run, creates a staged production deployment. The workflow checks routes and media before promoting it to `reality.design`. GitHub Actions needs `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN`, and `VERCEL_AUTOMATION_BYPASS_SECRET` repository secrets. Create the bypass secret under the Vercel project's Settings > Deployment Protection > Protection Bypass for Automation, then store it in the vault repository's Actions secrets. Missing credentials fail before the build. Never put a token in the repository or a chat message.
 
 ## Content and maintenance
 

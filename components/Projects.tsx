@@ -9,11 +9,14 @@ import Cover from './Cover'
 // Main profile, level 4.0 (up to 1080p), 8-bit: what optimize-cover-videos.mjs writes.
 const AV1_TYPE = 'video/mp4; codecs="av01.0.08M.08"'
 
-function ProjectCard({ project, first }: { project: CoreContent<Project>; first: boolean }) {
+function ProjectCard({ project, first, warm }: { project: CoreContent<Project>; first: boolean; warm: boolean }) {
   const [preview, setPreview] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const video = useRef<HTMLVideoElement>(null)
+  const touchStart = useRef<{ x: number; y: number; time: number } | null>(null)
+  const touchPreview = useRef(false)
+  const suppressClick = useRef(false)
   const hasVideo = project.coverVideo_data?.type === 'video'
   const fallback: string | undefined = project.coverVideoFallback_data?.uri
   const light = project.coverTextDark
@@ -25,29 +28,25 @@ function ProjectCard({ project, first }: { project: CoreContent<Project>; first:
     if (preview) {
       let retries = 0
       let retryTimer: number | undefined
-      // WebKit may reject play() while it is still loading the selected H.264
-      // source. Keep the cover/title visible until playback actually starts.
+      // WebKit may reject play() while it switches from AV1 to H.264.
+      // Keep the cover/title visible until playback actually starts.
       const play = () => {
         if (cancelled) return
         player.play().then(() => {
           if (!cancelled) setPlaying(true)
         }).catch((error: DOMException) => {
           if (cancelled) return
-          if (error.name === 'NotAllowedError' || player.error || retries++ >= 30) {
+          if (error.name === 'NotAllowedError' || retries++ >= 30) {
             setPreview(false)
             return
           }
           retryTimer = window.setTimeout(play, 300)
         })
       }
-      if (player.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) play()
-      else {
-        player.addEventListener('canplay', play, { once: true })
-        player.load()
-      }
+      if (player.readyState === HTMLMediaElement.HAVE_NOTHING) player.load()
+      play()
       return () => {
         cancelled = true
-        player.removeEventListener('canplay', play)
         if (retryTimer) window.clearTimeout(retryTimer)
       }
     } else {
@@ -66,21 +65,63 @@ function ProjectCard({ project, first }: { project: CoreContent<Project>; first:
       setPreview(true)
     }
   }
+  const videoMounted = hasVideo && (loaded || warm)
+  const stopTouchPreview = () => {
+    touchStart.current = null
+    if (touchPreview.current) {
+      touchPreview.current = false
+      setPreview(false)
+      setLoaded(false)
+    }
+  }
+  const startTouchPreview = (event: React.PointerEvent<HTMLAnchorElement>) => {
+    if (event.pointerType !== 'touch' || !hasVideo ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    stopTouchPreview()
+    suppressClick.current = false
+    touchStart.current = { x: event.clientX, y: event.clientY, time: Date.now() }
+    touchPreview.current = true
+    setLoaded(true)
+    setPlaying(false)
+    setPreview(true)
+  }
+  const moveTouchPreview = (event: React.PointerEvent<HTMLAnchorElement>) => {
+    if (event.pointerType !== 'touch' || !touchStart.current) return
+    const { x, y } = touchStart.current
+    if (Math.hypot(event.clientX - x, event.clientY - y) > 12) {
+      stopTouchPreview()
+      setLoaded(false)
+    }
+  }
+  const endTouchPreview = () => {
+    if (touchStart.current && Date.now() - touchStart.current.time >= 250) {
+      suppressClick.current = true
+    }
+    stopTouchPreview()
+  }
   return (
     <article className="min-w-0 lg:w-full lg:max-w-wide"
       onMouseEnter={() => window.dispatchEvent(new CustomEvent(EVENT_PROJECT_SHOW_DESC, { detail: project }))}
       onMouseLeave={() => { setPreview(false); window.dispatchEvent(new CustomEvent(EVENT_PROJECT_SHOW_DESC, { detail: null })) }}>
-        <Link href={project.url} aria-label={`View ${project.title}`} className="relative block overflow-hidden [container-type:inline-size]"
-          onMouseEnter={startPreview} onMouseLeave={() => setPreview(false)}
-          onFocus={startPreview} onBlur={() => setPreview(false)}>
+        <Link href={project.url} prefetch={false} aria-label={`View ${project.title}`} className="relative block overflow-hidden [container-type:inline-size]"
+          onMouseEnter={startPreview} onMouseLeave={() => { setPreview(false); setLoaded(false) }}
+          onFocus={startPreview} onBlur={() => { setPreview(false); setLoaded(false) }}
+          onPointerDown={startTouchPreview} onPointerMove={moveTouchPreview}
+          onPointerUp={endTouchPreview} onPointerCancel={() => { stopTouchPreview(); setLoaded(false) }}
+          onContextMenu={(event) => { if (touchStart.current || touchPreview.current) event.preventDefault() }}
+          onClick={(event) => {
+            if (suppressClick.current) {
+              event.preventDefault()
+              suppressClick.current = false
+            }
+          }}>
           <Cover cover={project.cover_data} alt={project.title} eager={first} className="h-auto w-full object-cover" />
-          {loaded && <video ref={video} src={fallback ? undefined : project.coverVideo_data.uri} muted loop playsInline
-            preload="none" aria-hidden="true" tabIndex={-1}
-            className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${showing ? 'opacity-100' : 'opacity-0'}`}
-            poster={project.cover_data?.uri} onError={() => setPreview(false)}>
+          {videoMounted && <video ref={video} src={fallback ? undefined : project.coverVideo_data.uri} muted loop playsInline
+            preload={warm ? 'metadata' : 'none'} aria-hidden="true" tabIndex={-1}
+            className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${showing ? 'opacity-100' : 'opacity-0'}`}>
             {/* Safari reports AV1 as unplayable without a hardware decoder and moves on to H.264. */}
             {fallback && <source src={project.coverVideo_data.uri} type={AV1_TYPE} />}
-            {fallback && <source src={fallback} type="video/mp4" onError={() => setPreview(false)} />}
+            {fallback && <source src={fallback} type="video/mp4" />}
           </video>}
           <span aria-hidden="true"
             className={`pointer-events-none absolute inset-0 flex flex-col items-end justify-end p-6 text-right leading-tight lg:p-10 transition-opacity duration-200 motion-reduce:transition-none ${light ? 'text-black' : 'text-white'} ${showing ? 'opacity-0' : 'opacity-100'}`}
@@ -100,5 +141,37 @@ function ProjectCard({ project, first }: { project: CoreContent<Project>; first:
 }
 
 export default function Projects({ projects }: { projects: CoreContent<Project>[] }) {
-  return <div className="flex min-w-0 flex-col gap-6">{projects.map((project, index) => <ProjectCard key={project.slug} project={project} first={index === 0} />)}</div>
+  const list = useRef<HTMLDivElement>(null)
+  const [warmIndices, setWarmIndices] = useState<number[]>([])
+  useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+    // WebKit requests the entire H.264 file for metadata, even with fast-start MP4s.
+    const webkit = /AppleWebKit/.test(navigator.userAgent) && !/(Chrome|Chromium)/.test(navigator.userAgent)
+    if (connection?.saveData || webkit || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const maxWarm = window.matchMedia('(hover: hover) and (pointer: fine)').matches ? 2 : 1
+    const root = list.current?.closest('main')
+    const cards = list.current?.querySelectorAll('article')
+    if (!root || !cards?.length || !window.IntersectionObserver) return
+    const ratios = new Map<Element, number>()
+    let timer: number | undefined
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) ratios.set(entry.target, entry.intersectionRatio)
+      if (timer) window.clearTimeout(timer)
+      timer = window.setTimeout(() => {
+        const visible = [...cards]
+          .map((card, index) => ({ index, ratio: ratios.get(card) ?? 0 }))
+          .filter(({ index, ratio }) => ratio > 0.15 && projects[index].coverVideo_data?.type === 'video')
+          .sort((a, b) => b.ratio - a.ratio)
+          .slice(0, maxWarm)
+          .map(({ index }) => index)
+        setWarmIndices(visible)
+      }, 350)
+    }, { root, threshold: [0, 0.25, 0.5, 0.75, 1] })
+    cards.forEach((card) => observer.observe(card))
+    return () => {
+      observer.disconnect()
+      if (timer) window.clearTimeout(timer)
+    }
+  }, [projects])
+  return <div ref={list} className="flex min-w-0 flex-col gap-6">{projects.map((project, index) => <ProjectCard key={project.slug} project={project} first={index === 0} warm={warmIndices.includes(index)} />)}</div>
 }

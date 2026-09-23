@@ -172,6 +172,11 @@ const main = async () => {
   }
 
   const convert = async (name) => {
+    // An explicit H.264 master preserves detail that a prior AV1 transcode lost.
+    if (/\.h264\.mp4$/i.test(name)) {
+      left += 1
+      return
+    }
     const source = await resolveSource(name)
     if (!source) {
       console.log(chalk.yellow(`  missing ${name}`))
@@ -220,9 +225,13 @@ const main = async () => {
       renames.push([path.basename(source), path.basename(target)])
     }
     if (sourceCodec === 'h264') {
-      // Preserve the original H.264 bytes rather than recompressing them.
+      // Remux without recompression so Safari can read metadata near the start.
       if (!fs.existsSync(fallbackOf(target))) {
-        if (apply) fs.copySync(source, fallbackOf(target))
+        if (apply) await run('ffmpeg', [
+          '-y', '-v', 'error', '-nostdin', '-i', source,
+          '-map', '0', '-c', 'copy', '-movflags', '+faststart',
+          '-f', 'mp4', fallbackOf(target),
+        ])
         fallbacks += 1
       }
     } else if (!fs.existsSync(fallbackOf(target))) {

@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import fs from 'fs-extra'
+import { open } from 'node:fs/promises'
 import path from 'node:path'
 import { glob } from 'glob'
 
@@ -14,7 +15,8 @@ if (!documents.length || documents.some((d) => d.published !== true)) {
   throw new Error('Expected a nonempty, published-only generated collection')
 }
 const missingVideoFallbacks = documents
-  .filter((doc) => doc.coverVideo_data?.type === 'video' && !doc.coverVideoFallback_data?.uri)
+  .filter((doc) => doc.coverVideo_data?.type === 'video' &&
+    !/\.h264\.mp4$/i.test(doc.coverVideo_data.uri) && !doc.coverVideoFallback_data?.uri)
   .map((doc) => doc.title ?? doc._id)
 if (missingVideoFallbacks.length) {
   throw new Error(`Published cover videos need H.264 fallbacks: ${missingVideoFallbacks.join(', ')}`)
@@ -35,8 +37,51 @@ function collect(value) {
   }
 }
 documents.forEach(collect)
+const coverVideos = new Set(documents.flatMap((doc) => [
+  doc.coverVideo_data?.uri,
+  doc.coverVideoFallback_data?.uri,
+]).filter((uri) => typeof uri === 'string' && uri.startsWith(prefix) && /\.mp4(?:[?#]|$)/i.test(uri))
+  .map((uri) => decodeURI(uri.split(/[?#]/)[0]).slice(1)))
+
+async function hasFastStart(asset) {
+  const handle = await open(asset, 'r')
+  try {
+    const { size } = await handle.stat()
+    const header = Buffer.alloc(16)
+    for (let offset = 0; offset + 8 <= size;) {
+      const { bytesRead } = await handle.read(header, 0, 8, offset)
+      if (bytesRead !== 8) return false
+      let boxSize = header.readUInt32BE(0)
+      const type = header.toString('ascii', 4, 8)
+      if (boxSize === 1) {
+        if ((await handle.read(header, 8, 8, offset + 8)).bytesRead !== 8) return false
+        const extended = header.readBigUInt64BE(8)
+        if (extended > BigInt(Number.MAX_SAFE_INTEGER)) return false
+        boxSize = Number(extended)
+      } else if (boxSize === 0) boxSize = size - offset
+      if (boxSize < 8 || offset + boxSize > size) return false
+      if (type === 'moov') return true
+      if (type === 'mdat') return false
+      offset += boxSize
+    }
+    return false
+  } finally {
+    await handle.close()
+  }
+}
+
 for (const file of references) {
-  if (!(await fs.pathExists(path.join('public', file)))) throw new Error(`Missing published asset: ${file}`)
+  const asset = path.join('public', file)
+  if (!(await fs.pathExists(asset))) throw new Error(`Missing published asset: ${file}`)
+  // A partial LFS checkout leaves a small pointer that otherwise passes
+  // existence checks and gets deployed as broken media.
+  if ((await fs.stat(asset)).size < 256 &&
+    (await fs.readFile(asset, 'utf8')).startsWith('version https://git-lfs.github.com/spec/v1\n')) {
+    throw new Error(`Published asset is a Git LFS pointer: ${file}`)
+  }
+  if (coverVideos.has(file) && !(await hasFastStart(asset))) {
+    throw new Error(`Published cover video needs fast-start MP4 metadata: ${file}`)
+  }
 }
 const stale = []
 for (const file of await glob(`${prefix.slice(1)}**/*`, { cwd: 'public', nodir: true })) {

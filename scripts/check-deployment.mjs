@@ -2,6 +2,8 @@
 // hidden work stays hidden, security headers are present, and every media
 // file the homepage references is served.
 import { execFile } from 'node:child_process'
+import fs from 'node:fs'
+import path from 'node:path'
 import { promisify } from 'node:util'
 
 const execFileAsync = promisify(execFile)
@@ -28,7 +30,9 @@ async function vercelCurl(path, curlArgs) {
 
 async function status(path, method = 'GET') {
   if (!useVercelCurl) {
-    return (await fetch(base + path, { method, headers, redirect: 'follow' })).status
+    return (await fetch(base + path, {
+      method, headers, redirect: 'manual', signal: AbortSignal.timeout(20000),
+    })).status
   }
   const args = ['--output', '/dev/null', '--write-out', '%{http_code}']
   if (method === 'HEAD') args.push('--head')
@@ -37,7 +41,9 @@ async function status(path, method = 'GET') {
 
 async function homepage() {
   if (!useVercelCurl) {
-    const response = await fetch(base + '/', { headers, redirect: 'manual' })
+    const response = await fetch(base + '/', {
+      headers, redirect: 'manual', signal: AbortSignal.timeout(20000),
+    })
     return {
       status: response.status,
       location: response.headers.get('location'),
@@ -90,9 +96,16 @@ if (/'unsafe-eval'/.test(csp)) failures.push("Content-Security-Policy allows 'un
 const html = entry.html
 const media = [...new Set(html.match(/\/media\/[^"?\s]+\.(?:mp4|avif|webp|jpe?g|png|pdf)/g) ?? [])]
 if (!media.length) failures.push('Homepage references no /media/ files')
-for (let i = 0; i < media.length; i += 5) {
-  const batch = media.slice(i, i + 5)
-  const results = await Promise.all(batch.map((file) => status(encodeURI(decodeURI(file)), 'HEAD')))
+const mediaRoot = new URL('../public/media/', import.meta.url)
+if (!fs.existsSync(mediaRoot)) throw new Error('Built public media directory is missing')
+const videos = fs.readdirSync(mediaRoot, { recursive: true })
+  .filter((file) => /\.mp4$/i.test(file))
+  .map((file) => '/media/' + file.split(path.sep).map(encodeURIComponent).join('/'))
+if (!videos.length) failures.push('Built site contains no preview videos')
+const assets = [...new Set([...media.map((file) => encodeURI(decodeURI(file))), ...videos])]
+for (let i = 0; i < assets.length; i += 5) {
+  const batch = assets.slice(i, i + 5)
+  const results = await Promise.all(batch.map((file) => status(file, 'HEAD')))
   results.forEach((actual, index) => {
     if (actual !== 200) failures.push(`${batch[index]}: ${actual}`)
   })
@@ -102,4 +115,4 @@ if (failures.length) {
   console.error(`Deployment check failed for ${base}:\n- ${failures.join('\n- ')}`)
   process.exit(1)
 }
-console.log(`Deployment check passed for ${base}: ${expectations.length} routes, ${media.length} media files`)
+console.log(`Deployment check passed for ${base}: ${expectations.length} routes, ${media.length} homepage media, ${videos.length} preview videos`)

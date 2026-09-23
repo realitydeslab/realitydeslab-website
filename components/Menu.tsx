@@ -34,6 +34,7 @@ const Menu = ({ defaultOpen = false }: Props) => {
                 <Link
                   key={child.codename + index}
                   href={child.href}
+                  prefetch={false}
                   className={`${pathname === child.href ? 'text-primary-900' : ''}`}
                 >
                   {child.codename}

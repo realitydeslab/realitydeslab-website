@@ -117,7 +117,8 @@ const VIDEO_FALLBACK_SUFFIX = '.h264.mp4'
 /** The H.264 fallback published beside a cover video, or null if it has none. */
 function resolveVideoFallback(wikilink: string): PermalinkResult | null {
   const { filepath } = resolveWikilink(wikilink)
-  if (!/\.mp4$/i.test(filepath)) return null
+  // A source explicitly ending in .h264.mp4 is already the compatibility file.
+  if (!/\.mp4$/i.test(filepath) || /\.h264\.mp4$/i.test(filepath)) return null
   const fallback = filepath.replace(/\.mp4$/i, VIDEO_FALLBACK_SUFFIX)
   if (!searchMedia(fallback, '')) return null
   return { type: 'video', uri: resolveMedia(fallback) }
