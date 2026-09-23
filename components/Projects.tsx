@@ -136,15 +136,9 @@ function ProjectCard({ project, first, warm }: { project: CoreContent<Project>; 
             }
           }}>
           <Cover cover={project.cover_data} alt={project.title} eager={first} className="h-auto w-full object-cover" />
-          {videoMounted && <video ref={video} src={fallback ? undefined : project.coverVideo_data.uri} muted loop={!touchMode} playsInline
+          {videoMounted && <video ref={video} src={fallback ? undefined : project.coverVideo_data.uri} muted loop playsInline
             preload={warm ? 'metadata' : 'none'} aria-hidden="true" tabIndex={-1}
-            className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${showing ? 'opacity-100' : 'opacity-0'}`}
-            onEnded={() => {
-              if (touchPlayback.current) {
-                if (touchStart.current !== null) suppressClick.current = true
-                stopTouchPreview()
-              }
-            }}>
+            className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${showing ? 'opacity-100' : 'opacity-0'}`}>
             {/* Safari reports AV1 as unplayable without a hardware decoder and moves on to H.264. */}
             {fallback && <source src={project.coverVideo_data.uri} type={AV1_TYPE} />}
             {fallback && <source src={fallback} type="video/mp4" />}
