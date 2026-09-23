@@ -150,13 +150,13 @@ function ProjectCard({ project, first, warm }: { project: CoreContent<Project>; 
             {fallback && <source src={fallback} type="video/mp4" />}
           </video>}
           <span aria-hidden="true"
-            className={`pointer-events-none absolute inset-0 flex flex-col items-end justify-end p-6 text-right leading-tight lg:p-10 transition-opacity duration-200 motion-reduce:transition-none ${light ? 'text-black' : 'text-white'} ${showing ? 'opacity-0' : 'opacity-100'}`}
+            className={`pointer-events-none absolute inset-0 flex flex-col items-end justify-end p-3 text-right leading-tight sm:p-6 lg:p-10 transition-opacity duration-200 motion-reduce:transition-none ${light ? 'text-black' : 'text-white'} ${showing ? 'opacity-0' : 'opacity-100'}`}
             style={{ paintOrder: 'stroke fill', textShadow: light ? undefined : '0 1px 3px rgb(0 0 0 / 35%)' }}>
             <span className="text-[clamp(1rem,3.16cqw,2.125rem)] leading-tight" style={{ WebkitTextStroke: stroke && `0.75px ${stroke}` }}>
               {project.title}
             </span>
             {project.description && (
-              <span className="mt-2 max-w-[70%] text-[clamp(0.6875rem,1.86cqw,1.25rem)]" style={{ WebkitTextStroke: stroke && `0.5px ${stroke}` }}>
+              <span className="mt-2 max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-[clamp(0.625rem,2.8cqw,0.6875rem)] sm:max-w-[70%] sm:overflow-visible sm:text-clip sm:whitespace-normal sm:text-[clamp(0.6875rem,1.86cqw,1.25rem)]" style={{ WebkitTextStroke: stroke && `0.5px ${stroke}` }}>
                 {project.description}
               </span>
             )}
