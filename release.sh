@@ -52,7 +52,14 @@ if [ "${1-}" = --check ]; then
 fi
 
 npx --yes --package=node@24 --package=vercel@59.25.0 -c 'vercel pull --yes --environment=production && vercel build --prod'
-staged_url=$(npx --yes --package=node@24 --package=vercel@59.25.0 -c 'vercel deploy --prebuilt --prod --skip-domain')
+deployment_result=$(npx --yes --package=node@24 --package=vercel@59.25.0 -c 'vercel deploy --prebuilt --prod --skip-domain')
+case "$deployment_result" in
+  https://*) staged_url=$deployment_result ;;
+  *) staged_url=$(printf '%s' "$deployment_result" | node -e 'let input = ""; process.stdin.on("data", chunk => input += chunk); process.stdin.on("end", () => { try { const result = JSON.parse(input); if (result.status !== "ok" || result.deployment?.target !== "production" || result.deployment?.readyState !== "READY") process.exit(1); console.log(result.deployment.url) } catch { process.exit(1) } })') || {
+    echo 'Vercel did not return a ready production deployment.' >&2
+    exit 1
+  } ;;
+esac
 case "$staged_url" in
   https://realitydeslab-website-*.vercel.app) ;;
   *) echo "Unexpected staged deployment URL: $staged_url" >&2; exit 1 ;;
