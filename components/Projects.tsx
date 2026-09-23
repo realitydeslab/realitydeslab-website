@@ -3,7 +3,7 @@ import { Project } from 'contentlayer/generated'
 import { CoreContent } from 'pliny/utils/contentlayer.js'
 import { EVENT_PROJECT_SHOW_DESC } from './ProjectDescription'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Cover from './Cover'
 
 // Main profile, level 4.0 (up to 1080p), 8-bit: what optimize-cover-videos.mjs writes.
@@ -13,9 +13,11 @@ function ProjectCard({ project, first, warm }: { project: CoreContent<Project>; 
   const [preview, setPreview] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  const [touchMode, setTouchMode] = useState(false)
+  const card = useRef<HTMLElement>(null)
   const video = useRef<HTMLVideoElement>(null)
-  const touchStart = useRef<{ x: number; y: number; time: number } | null>(null)
-  const touchPreview = useRef(false)
+  const touchStart = useRef<number | null>(null)
+  const touchPlayback = useRef(false)
   const suppressClick = useRef(false)
   const hasVideo = project.coverVideo_data?.type === 'video'
   const fallback: string | undefined = project.coverVideoFallback_data?.uri
@@ -66,49 +68,52 @@ function ProjectCard({ project, first, warm }: { project: CoreContent<Project>; 
     }
   }
   const videoMounted = hasVideo && (loaded || warm)
-  const stopTouchPreview = () => {
+  const stopTouchPreview = useCallback(() => {
     touchStart.current = null
-    if (touchPreview.current) {
-      touchPreview.current = false
+    if (touchPlayback.current) {
+      touchPlayback.current = false
+      setTouchMode(false)
       setPreview(false)
       setLoaded(false)
     }
-  }
+  }, [])
+  useEffect(() => {
+    if (!touchMode || !card.current) return
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) stopTouchPreview()
+    })
+    observer.observe(card.current)
+    return () => observer.disconnect()
+  }, [touchMode, stopTouchPreview])
   const startTouchPreview = (event: React.PointerEvent<HTMLAnchorElement>) => {
     if (event.pointerType !== 'touch' || !hasVideo ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     stopTouchPreview()
     suppressClick.current = false
-    touchStart.current = { x: event.clientX, y: event.clientY, time: Date.now() }
-    touchPreview.current = true
+    touchStart.current = Date.now()
+    touchPlayback.current = true
+    setTouchMode(true)
     setLoaded(true)
     setPlaying(false)
     setPreview(true)
   }
-  const moveTouchPreview = (event: React.PointerEvent<HTMLAnchorElement>) => {
-    if (event.pointerType !== 'touch' || !touchStart.current) return
-    const { x, y } = touchStart.current
-    if (Math.hypot(event.clientX - x, event.clientY - y) > 12) {
-      stopTouchPreview()
-      setLoaded(false)
-    }
-  }
   const endTouchPreview = () => {
-    if (touchStart.current && Date.now() - touchStart.current.time >= 250) {
-      suppressClick.current = true
-    }
-    stopTouchPreview()
+    if (touchStart.current === null) return
+    const held = Date.now() - touchStart.current >= 250
+    touchStart.current = null
+    if (held) suppressClick.current = true
+    else stopTouchPreview()
   }
   return (
-    <article className="min-w-0 lg:w-full lg:max-w-wide"
+    <article ref={card} className="min-w-0 lg:w-full lg:max-w-wide"
       onMouseEnter={() => window.dispatchEvent(new CustomEvent(EVENT_PROJECT_SHOW_DESC, { detail: project }))}
-      onMouseLeave={() => { setPreview(false); window.dispatchEvent(new CustomEvent(EVENT_PROJECT_SHOW_DESC, { detail: null })) }}>
+      onMouseLeave={() => { if (!touchPlayback.current) setPreview(false); window.dispatchEvent(new CustomEvent(EVENT_PROJECT_SHOW_DESC, { detail: null })) }}>
         <Link href={project.url} prefetch={false} aria-label={`View ${project.title}`} className="relative block overflow-hidden [container-type:inline-size]"
-          onMouseEnter={startPreview} onMouseLeave={() => { setPreview(false); setLoaded(false) }}
-          onFocus={startPreview} onBlur={() => { setPreview(false); setLoaded(false) }}
-          onPointerDown={startTouchPreview} onPointerMove={moveTouchPreview}
-          onPointerUp={endTouchPreview} onPointerCancel={() => { stopTouchPreview(); setLoaded(false) }}
-          onContextMenu={(event) => { if (touchStart.current || touchPreview.current) event.preventDefault() }}
+          onMouseEnter={startPreview} onMouseLeave={() => { if (!touchPlayback.current) { setPreview(false); setLoaded(false) } }}
+          onFocus={startPreview} onBlur={() => { if (!touchPlayback.current) { setPreview(false); setLoaded(false) } }}
+          onPointerDown={startTouchPreview} onPointerUp={endTouchPreview}
+          onPointerCancel={() => { touchStart.current = null; suppressClick.current = true }}
+          onContextMenu={(event) => { if (touchPlayback.current) event.preventDefault() }}
           onClick={(event) => {
             if (suppressClick.current) {
               event.preventDefault()
@@ -116,9 +121,15 @@ function ProjectCard({ project, first, warm }: { project: CoreContent<Project>; 
             }
           }}>
           <Cover cover={project.cover_data} alt={project.title} eager={first} className="h-auto w-full object-cover" />
-          {videoMounted && <video ref={video} src={fallback ? undefined : project.coverVideo_data.uri} muted loop playsInline
+          {videoMounted && <video ref={video} src={fallback ? undefined : project.coverVideo_data.uri} muted loop={!touchMode} playsInline
             preload={warm ? 'metadata' : 'none'} aria-hidden="true" tabIndex={-1}
-            className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${showing ? 'opacity-100' : 'opacity-0'}`}>
+            className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${showing ? 'opacity-100' : 'opacity-0'}`}
+            onEnded={() => {
+              if (touchPlayback.current) {
+                if (touchStart.current !== null) suppressClick.current = true
+                stopTouchPreview()
+              }
+            }}>
             {/* Safari reports AV1 as unplayable without a hardware decoder and moves on to H.264. */}
             {fallback && <source src={project.coverVideo_data.uri} type={AV1_TYPE} />}
             {fallback && <source src={fallback} type="video/mp4" />}
