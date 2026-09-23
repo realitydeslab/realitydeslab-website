@@ -25,8 +25,22 @@ const run = promisify(execFile)
 // files for the same 1080p frame. Full duration is kept; the silent audio
 // track is dropped.
 const MAX_WIDTH = 1920
-const CRF = 26
+const CRF = 30
 const PRESET = 6
+
+// CRF alone let high-detail footage run to 6.3M (FungiSync: foliage and
+// particles), because constant quality spends whatever that detail costs. A
+// ceiling bounds those clips without touching easy ones: FungiSync goes from
+// 12.9MB to 5.9MB with SSIM 0.982 against the source.
+const MAX_BITRATE = '2500k'
+
+// Safari decodes AV1 only where the device has a hardware decoder (M3 Macs,
+// iPhone 15 Pro and later) and has no software fallback, so every AV1 cover
+// ships with an H.264 sibling the page offers second. H.264 needs more bits
+// than AV1 for the same picture, hence the higher ceiling.
+const FALLBACK_SUFFIX = '.h264.mp4'
+const FALLBACK_CRF = 23
+const FALLBACK_MAX_BITRATE = '3500k'
 
 // Encoding one file at a time leaves most of a ten-core machine idle.
 const CONCURRENCY = 4
@@ -40,8 +54,8 @@ const coverVideoNames = async () => {
   })
   const names = new Map()
   for (const document of documents) {
-    const { coverVideo } = matter(fs.readFileSync(document, 'utf8')).data
-    if (!coverVideo) continue
+    const { coverVideo, published } = matter(fs.readFileSync(document, 'utf8')).data
+    if (published !== true || !coverVideo) continue
     const name = String(coverVideo).replace(/\[\[|\]\]/g, '').split('|')[0].trim()
     if (name) names.set(name, document)
   }
@@ -55,20 +69,67 @@ const resolveSource = async (name) => {
   return hits[0] ?? null
 }
 
+const fallbackOf = (primary) => primary.replace(/\.mp4$/i, FALLBACK_SUFFIX)
+
+const encodeFallback = (source, target) =>
+  run('ffmpeg', [
+    '-y', '-v', 'error', '-nostdin',
+    '-i', source,
+    '-an',
+    '-vf', `scale='min(${MAX_WIDTH},iw)':-2`,
+    '-c:v', 'libx264',
+    '-crf', String(FALLBACK_CRF),
+    '-preset', 'slow',
+    '-maxrate', FALLBACK_MAX_BITRATE,
+    '-bufsize', `${parseInt(FALLBACK_MAX_BITRATE, 10) * 2}k`,
+    // The widest-supported H.264 profile for 1080p; that is the point of it.
+    '-profile:v', 'high', '-pix_fmt', 'yuv420p',
+    '-movflags', '+faststart',
+    '-f', 'mp4',
+    target,
+  ])
+
 const encode = (source, target) =>
   run('ffmpeg', [
-    '-y', '-v', 'error',
+    '-y', '-v', 'error', '-nostdin',
     '-i', source,
     '-an',
     '-vf', `scale='min(${MAX_WIDTH},iw)':-2`,
     '-c:v', 'libsvtav1',
     '-crf', String(CRF),
     '-preset', String(PRESET),
+    '-svtav1-params', `mbr=${MAX_BITRATE}`,
     '-movflags', '+faststart',
     // The staging path ends in .partial, so the muxer cannot be inferred.
     '-f', 'mp4',
     target,
   ])
+
+/**
+ * Whether a file is already what this script would produce.
+ *
+ * Without this check every run re-encodes every video and keeps the result if
+ * it is smaller, which it usually is: each run then costs another generation of
+ * quality for a few percent of size.
+ */
+const probe = async (source) => {
+  const { stdout } = await run('ffprobe', [
+    '-v', 'error', '-select_streams', 'v:0',
+    '-show_entries', 'stream=codec_name,width:format=bit_rate',
+    '-of', 'json', source,
+  ])
+  return JSON.parse(stdout)
+}
+
+const codecOf = async (source) => (await probe(source)).streams?.[0]?.codec_name
+
+const alreadyOptimized = async (source) => {
+  const { streams: [stream] = [] } = await probe(source)
+  if (!stream) return false
+  // Existing AV1 may be an authored master. Never recompress it merely to
+  // meet a bitrate target; ensure its H.264 sibling instead.
+  return stream.codec_name === 'av1' && stream.width <= MAX_WIDTH
+}
 
 /** Repoint every wikilink at a renamed file, across the whole vault. */
 const applyRenames = async (renames) => {
@@ -97,6 +158,19 @@ const main = async () => {
   let rewritten = 0
   let left = 0
 
+  let fallbacks = 0
+
+  /** Write the H.264 sibling for `primary`, encoded from `source`. */
+  const writeFallback = async (source, primary) => {
+    const fallback = fallbackOf(primary)
+    const staging = `${fallback}.partial.mp4`
+    await encodeFallback(source, staging)
+    console.log(`  + ${(fs.statSync(staging).size / 1048576).toFixed(1)}M H.264  ${path.basename(fallback)}`)
+    fallbacks += 1
+    if (apply) fs.moveSync(staging, fallback, { overwrite: true })
+    else fs.removeSync(staging)
+  }
+
   const convert = async (name) => {
     const source = await resolveSource(name)
     if (!source) {
@@ -105,7 +179,14 @@ const main = async () => {
     }
     const target = source.replace(/\.[^./\\]+$/, '.mp4')
     const staging = `${target}.partial.mp4`
+    const sourceCodec = await codecOf(source)
     try {
+      if (await alreadyOptimized(source)) {
+        left += 1
+        // Encoded before fallbacks existed: add the sibling it lacks.
+        if (!fs.existsSync(fallbackOf(target))) await writeFallback(source, target)
+        return
+      }
       await encode(source, staging)
     } catch (error) {
       console.log(chalk.yellow(`  skip ${name}: ${error.message.split('\n')[0]}`))
@@ -115,11 +196,17 @@ const main = async () => {
     }
     const originalSize = fs.statSync(source).size
     const newSize = fs.statSync(staging).size
-    // Six of these are already AV1; leave one alone if re-encoding gains nothing.
-    if (newSize >= originalSize) {
+    // Keep an existing AV1 master when another generation would not help.
+    // H.264 sources still get an AV1 version, even if it is larger, so every
+    // published preview offers both codecs.
+    if (newSize >= originalSize && sourceCodec === 'av1') {
       fs.removeSync(staging)
       left += 1
       console.log(chalk.gray(`  keep ${name} (${(originalSize / 1048576).toFixed(1)}MB, re-encode was larger)`))
+      if (!fs.existsSync(fallbackOf(source))) {
+        await writeFallback(source, source).catch((error) =>
+          console.log(chalk.yellow(`  skip ${name}: fallback failed: ${error.message.split('\n')[0]}`)))
+      }
       return
     }
     console.log(
@@ -131,6 +218,21 @@ const main = async () => {
     rewritten += 1
     if (path.basename(source) !== path.basename(target)) {
       renames.push([path.basename(source), path.basename(target)])
+    }
+    if (sourceCodec === 'h264') {
+      // Preserve the original H.264 bytes rather than recompressing them.
+      if (!fs.existsSync(fallbackOf(target))) {
+        if (apply) fs.copySync(source, fallbackOf(target))
+        fallbacks += 1
+      }
+    } else if (!fs.existsSync(fallbackOf(target))) {
+      try {
+        await writeFallback(source, target)
+      } catch (error) {
+        console.log(chalk.yellow(`  skip ${name}: fallback failed: ${error.message.split('\n')[0]}`))
+        fs.removeSync(staging)
+        return
+      }
     }
     if (apply) {
       fs.moveSync(staging, target, { overwrite: true })
@@ -153,7 +255,7 @@ const main = async () => {
     chalk.bgGreen(
       `${apply ? 'Rewrote' : 'Would rewrite'} ${rewritten} cover videos (${left} kept): ` +
         `${(originalBytes / 1048576).toFixed(0)}MB -> ${(newBytes / 1048576).toFixed(0)}MB, saved ${saved}%. ` +
-        `${renames.length} renamed, ${touched} documents updated.`
+        `${fallbacks} H.264 fallbacks, ${renames.length} renamed, ${touched} documents updated.`
     )
   )
   if (!apply) console.log(chalk.gray('Dry run. Re-run with --apply to write.'))

@@ -13,6 +13,12 @@ const documents = (await Promise.all(indexes.map((f) => fs.readJson(path.join(ge
 if (!documents.length || documents.some((d) => d.published !== true)) {
   throw new Error('Expected a nonempty, published-only generated collection')
 }
+const missingVideoFallbacks = documents
+  .filter((doc) => doc.coverVideo_data?.type === 'video' && !doc.coverVideoFallback_data?.uri)
+  .map((doc) => doc.title ?? doc._id)
+if (missingVideoFallbacks.length) {
+  throw new Error(`Published cover videos need H.264 fallbacks: ${missingVideoFallbacks.join(', ')}`)
+}
 const prefix = `/${process.env.PUBLISH_ROOT || 'media'}/`
 if (!/^\/[a-zA-Z0-9_-]+\/$/.test(prefix)) throw new Error('Invalid generated media folder')
 const references = new Set()

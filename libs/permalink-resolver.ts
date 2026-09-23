@@ -110,6 +110,19 @@ const resolveMedia = (filename: string): string => {
   }
 }
 
+// scripts/optimize-cover-videos.mjs writes an H.264 sibling beside every AV1
+// cover video, for Safari on devices without an AV1 hardware decoder.
+const VIDEO_FALLBACK_SUFFIX = '.h264.mp4'
+
+/** The H.264 fallback published beside a cover video, or null if it has none. */
+function resolveVideoFallback(wikilink: string): PermalinkResult | null {
+  const { filepath } = resolveWikilink(wikilink)
+  if (!/\.mp4$/i.test(filepath)) return null
+  const fallback = filepath.replace(/\.mp4$/i, VIDEO_FALLBACK_SUFFIX)
+  if (!searchMedia(fallback, '')) return null
+  return { type: 'video', uri: resolveMedia(fallback) }
+}
+
 const rewritePermalink = (permalink: string): string | null => wikiTarget(permalink, permalinks)
 
 function getLinkContent(token: string): string {
@@ -118,4 +131,4 @@ function getLinkContent(token: string): string {
   return matched ? matched[1] : token
 }
 
-export { rewritePermalink, getLinkContent, resolvePermalink, resolveMedia }
+export { rewritePermalink, getLinkContent, resolvePermalink, resolveMedia, resolveVideoFallback }

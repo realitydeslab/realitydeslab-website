@@ -3,7 +3,7 @@ import { __ } from '../libs/utils'
 import _ from 'lodash'
 
 import { computedFields, resolveWikiLinks } from './common'
-import { resolvePermalink } from '../libs/permalink-resolver'
+import { resolvePermalink, resolveVideoFallback } from '../libs/permalink-resolver'
 
 export const Project = defineDocumentType(() => ({
   name: 'Project',
@@ -76,10 +76,9 @@ export const Project = defineDocumentType(() => ({
       type: 'json',
       resolve: (doc) => resolvePermalink(doc.coverVideo ?? ''),
     },
-    coverSlides_data: {
-      type: 'list',
-      of: { type: 'json' },
-      resolve: (doc) => resolveWikiLinks(doc.coverSlides),
+    coverVideoFallback_data: {
+      type: 'json',
+      resolve: (doc) => (doc.coverVideo ? resolveVideoFallback(doc.coverVideo) : null),
     },
     year_range: {
       type: 'string',
