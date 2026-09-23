@@ -29,9 +29,18 @@ The published-asset audit rejects missing media, Git LFS pointers, and cover MP4
 
 ## Deployment
 
-Confirm the linked Vercel project, then run `sh deploy.sh` to create a preview. Verify its exact URL before running `sh promote.sh <verified-preview-url>`. Do not guess which deployment is the latest.
+The website and vault are separate repositories. Commit and push both `main` branches before releasing. Keep the `vault` link pointed at the vault checkout, and sign in to the `botaohus-projects` Vercel team with `npx --yes vercel@59.25.0 login`. The release script checks the linked Vercel project, clean Git trees, and remote commit hashes before it deploys.
 
-The vault repository's `.github/workflows/deploy.yml` is the automated production path. A push to the vault's `main` branch, or a manual workflow run, creates a staged production deployment. The workflow checks routes and media before promoting it to `reality.design`. GitHub Actions needs `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN`, and `VERCEL_AUTOMATION_BYPASS_SECRET` repository secrets. Create the bypass secret under the Vercel project's Settings > Deployment Protection > Protection Bypass for Automation, then store it in the vault repository's Actions secrets. Missing credentials fail before the build. Never put a token in the repository or a chat message.
+```sh
+sh release.sh --check
+sh release.sh
+```
+
+`release.sh` pulls the production environment, builds a staged production deployment without taking the domain, checks routes and media through Vercel Authentication, promotes the exact checked deployment, and checks `https://reality.design` again. If a check fails, it does not promote the staged deployment. The local release path uses the Vercel CLI login and needs no new API key.
+
+For an iPhone review before release, run `sh deploy.sh` to create a Vercel preview and test its printed URL. A preview deployment cannot be promoted directly to the production domain; use `sh release.sh` after review. `promote.sh` accepts only an already verified **production** deployment URL. Protected preview links may require a Vercel login on the reviewing device.
+
+The vault repository's `.github/workflows/deploy.yml` is the automated production path. A push to the vault's `main` branch, or a manual workflow run, stages and checks a production deployment before promotion. It requires `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN`, and `VERCEL_AUTOMATION_BYPASS_SECRET` in that repository's Actions secrets. The first three already exist; the automation bypass secret still needs to be created under the Vercel project's Settings > Deployment Protection > Protection Bypass for Automation and added to GitHub. The existing Vercel API token alone did not authenticate `vercel curl` in GitHub Actions on 23 September 2026. Until that secret is configured, use the local `release.sh` path. Never put a token in the repository or a chat message.
 
 ## Content and maintenance
 
