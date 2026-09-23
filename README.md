@@ -27,7 +27,7 @@ Run `npm run content` after editing the vault; the website does not watch it dir
 
 Confirm the linked Vercel project, then run `sh deploy.sh` to create a preview. Verify its exact URL before running `sh promote.sh <verified-preview-url>`. Do not guess which deployment is the latest.
 
-The vault repository's `.github/workflows/deploy.yml` is the automated production path. A push to the vault's `main` branch, or a manual workflow run, creates a staged production deployment. The workflow checks routes and media before promoting it to `reality.design`. GitHub Actions needs four repository secrets: `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN`, and `VERCEL_AUTOMATION_BYPASS_SECRET`. The last secret allows CI to inspect a staged deployment protected by Vercel Authentication. Never put it in the repository or a chat message.
+The vault repository's `.github/workflows/deploy.yml` is the automated production path. A push to the vault's `main` branch, or a manual workflow run, creates a staged production deployment. The workflow checks routes and media before promoting it to `reality.design`. GitHub Actions needs `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, and `VERCEL_TOKEN` repository secrets. The staged check uses Vercel CLI authentication; `VERCEL_AUTOMATION_BYPASS_SECRET` is optional. Never put a token in the repository or a chat message.
 
 ## Content and maintenance
 
