@@ -21,7 +21,7 @@ npm run build
 npm start
 ```
 
-Run `npm run content` after editing the vault; the website does not watch it directly. `published: true` controls publication, while the legacy `draft` field does not. On the homepage, pointer hover starts a silent preview and clicking the cover opens the project. Touch-down starts a preview; releasing after a short hold lets it finish once without navigation, while a short tap opens the project. Scrolling stops the preview only when its card leaves the viewport.
+Run `npm run content` after editing the vault; the website does not watch it directly. `published: true` controls publication, while the legacy `draft` field does not. On the homepage, pointer hover starts a silent preview and clicking the cover opens the project. Touch-down starts a preview; releasing after a short hold lets it finish once without navigation, while a short tap opens the project. Scrolling stops the preview only when its card leaves the viewport. Starting another preview stops the previous one.
 
 The homepage warms at most two visible previews on fine pointers and one on touch devices. WebKit skips warming because its metadata request can download an entire H.264 file. Data Saver and reduced-motion preferences also disable warming. Browsers may download several seconds of video for `preload="metadata"`, so remeasure first-screen and full-scroll traffic before increasing these limits.
 

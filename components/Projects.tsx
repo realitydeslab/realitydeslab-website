@@ -8,6 +8,7 @@ import Cover from './Cover'
 
 // Main profile, level 4.0 (up to 1080p), 8-bit: what optimize-cover-videos.mjs writes.
 const AV1_TYPE = 'video/mp4; codecs="av01.0.08M.08"'
+const PREVIEW_START_EVENT = 'project-preview-start'
 
 function ProjectCard({ project, first, warm }: { project: CoreContent<Project>; first: boolean; warm: boolean }) {
   const [preview, setPreview] = useState(false)
@@ -62,6 +63,7 @@ function ProjectCard({ project, first, warm }: { project: CoreContent<Project>; 
   const startPreview = () => {
     if (hasVideo && window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.dispatchEvent(new CustomEvent(PREVIEW_START_EVENT, { detail: project.slug }))
       setLoaded(true)
       setPlaying(false)
       setPreview(true)
@@ -78,6 +80,18 @@ function ProjectCard({ project, first, warm }: { project: CoreContent<Project>; 
     }
   }, [])
   useEffect(() => {
+    const stopPreviousPreview = (event: Event) => {
+      if ((event as CustomEvent<string>).detail === project.slug) return
+      video.current?.pause()
+      stopTouchPreview()
+      setPreview(false)
+      setLoaded(false)
+      setPlaying(false)
+    }
+    window.addEventListener(PREVIEW_START_EVENT, stopPreviousPreview)
+    return () => window.removeEventListener(PREVIEW_START_EVENT, stopPreviousPreview)
+  }, [project.slug, stopTouchPreview])
+  useEffect(() => {
     if (!touchMode || !card.current) return
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) stopTouchPreview()
@@ -92,6 +106,7 @@ function ProjectCard({ project, first, warm }: { project: CoreContent<Project>; 
     suppressClick.current = false
     touchStart.current = Date.now()
     touchPlayback.current = true
+    window.dispatchEvent(new CustomEvent(PREVIEW_START_EVENT, { detail: project.slug }))
     setTouchMode(true)
     setLoaded(true)
     setPlaying(false)
