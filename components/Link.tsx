@@ -5,6 +5,7 @@ import { AnchorHTMLAttributes } from 'react'
 const CustomLink = ({
   href,
   className,
+  prefetch,
   ...rest
 }: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>) => {
   const isInternalLink = href && href.startsWith('/')
@@ -13,7 +14,7 @@ const CustomLink = ({
     'text-primary-500 transition-all duration-150 hover:text-primary-900 ' +
     (className ? className : '')
   if (isInternalLink) {
-    return <Link className={classNames} href={href} {...rest} />
+    return <Link className={classNames} href={href} prefetch={prefetch} {...rest} />
   }
 
   if (isAnchorLink) {
