@@ -25,7 +25,7 @@ const Submenu = ({ title, children, open = false }: Props) => {
       >
         {title}
       </button>
-      <div className={menuShow ? 'flex flex-col gap-2 px-6' : 'hidden'}>{children}</div>
+      <div className={menuShow ? 'flex flex-col gap-2 pl-6' : 'hidden'}>{children}</div>
     </div>
   )
 }
