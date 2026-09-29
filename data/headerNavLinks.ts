@@ -36,6 +36,7 @@ const abouts = [
 const inspires = [
   { title: 'Augmented Reality', href: 'https://augmented.reality.design', codename: 'Augmented Reality' },
   { title: 'More-than-Human Reality', href: 'https://more-than-human.reality.design', codename: 'More-than-Human Reality' },
+  { title: 'Somatic Reality Design', href: 'https://somatic.reality.design', codename: 'Somatic Reality Design' },
   { title: 'Machinic Reality', href: 'https://machinic.reality.design', codename: 'Machinic Reality' },
   { title: 'Protocolized Reality', href: 'https://protocolized.reality.design', codename: 'Protocolized Reality' },
 ]
