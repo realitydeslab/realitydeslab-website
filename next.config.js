@@ -80,6 +80,12 @@ module.exports = () => {
       // Covers are content-stable; re-deriving them every 4 hours is waste.
       minimumCacheTTL: 2592000,
     },
+    // Old slugs kept alive for links shared before a project was renamed.
+    async redirects() {
+      return [
+        { source: '/project/aimom', destination: '/project/ai-mom', permanent: true },
+      ]
+    },
     async headers() {
       return [
         {
